@@ -1,0 +1,10 @@
+*.zip
+.vscode
+.QuantConnect
+lean.json
+Lean
+data
+storage
+年化模拟.py
+profit.png
+*.pyc

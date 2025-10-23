@@ -1,0 +1,58 @@
+{
+    "folders": [
+        {
+            "name": "Project",
+            "path": "/data1/shiyue.cao/quant/02_data_aggragate"
+        }
+    ],
+    "settings": {
+        "python.autoComplete.extraPaths": [
+            "/data1/shiyue.cao/quant/Library"
+        ],
+        "python.analysis.extraPaths": [
+            "/data1/shiyue.cao/quant/Library"
+        ],
+        "files.autoSave": "afterDelay",
+        "files.exclude": {
+            "**.vscode": true,
+            "**.idea": true,
+            "config.json": true,
+            "qc.code-workspace": true,
+            "bin": true,
+            "obj": true,
+            "backtests": true,
+            "live": true,
+            "optimizations": true,
+            "storage": true,
+            "report": true,
+            "__pycache__": true,
+            ".ipynb_checkpoints": true,
+            ".idea": true,
+            ".vscode": true
+        },
+        "files.watcherExclude": {
+            "bin/**": true,
+            "obj/**": true,
+            "backtests/**": true,
+            "live/**": true,
+            "optimizations/**": true,
+            "storage/**": true,
+            "report/**": true,
+            "__pycache__/**": true,
+            ".ipynb_checkpoints/**": true,
+            ".idea/**": true,
+            ".vscode/**": true
+        },
+        "files.readonlyInclude": {
+            "**/*.py": false,
+            "**/*.cs": false,
+            "**/*.ipynb": false,
+            "/data1/shiyue.cao/quant/Fat Violet Pelican/**/*.py": false,
+            "/data1/shiyue.cao/quant/Fat Violet Pelican/**/*.cs": false,
+            "/data1/shiyue.cao/quant/Fat Violet Pelican/**/*.ipynb": false,
+            "/data1/shiyue.cao/quant/02_data_aggragate/**/*.py": false,
+            "/data1/shiyue.cao/quant/02_data_aggragate/**/*.cs": false,
+            "/data1/shiyue.cao/quant/02_data_aggragate/**/*.ipynb": false
+        }
+    }
+}

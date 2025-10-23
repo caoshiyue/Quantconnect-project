@@ -1,0 +1,435 @@
+2025-10-22T08:38:47.7552333Z TRACE:: Engine.Main(): LEAN ALGORITHMIC TRADING ENGINE v2.5.0.0 Mode: DEBUG (64bit) Host: crise50
+2025-10-22T08:38:47.7627696Z TRACE:: Engine.Main(): Started 8:38 AM
+2025-10-22T08:38:47.7632418Z TRACE:: Config.Get(): Configuration key not found. Key: job-queue-handler - Using default value: QuantConnect.Queues.JobQueue
+2025-10-22T08:38:47.7634676Z TRACE:: Config.Get(): Configuration key not found. Key: algorithm-type-name - Using default value: 
+2025-10-22T08:38:47.7635160Z TRACE:: Config.Get(): Configuration key not found. Key: algorithm-location - Using default value: QuantConnect.Algorithm.CSharp.dll
+2025-10-22T08:38:47.7639863Z TRACE:: Config.Get(): Configuration key not found. Key: api-handler - Using default value: QuantConnect.Api.Api
+2025-10-22T08:38:47.7670742Z TRACE:: Config.Get(): Configuration key not found. Key: messaging-handler - Using default value: QuantConnect.Messaging.Messaging
+2025-10-22T08:38:47.7674163Z TRACE:: Config.Get(): Configuration key not found. Key: lean-manager-type - Using default value: LocalLeanManager
+2025-10-22T08:38:47.7962677Z TRACE:: Config.Get(): Configuration key not found. Key: setup-handler - Using default value: ConsoleSetupHandler
+2025-10-22T08:38:47.7963058Z TRACE:: Config.Get(): Configuration key not found. Key: transaction-handler - Using default value: BacktestingTransactionHandler
+2025-10-22T08:38:47.7963222Z TRACE:: Config.Get(): Configuration key not found. Key: real-time-handler - Using default value: BacktestingRealTimeHandler
+2025-10-22T08:38:47.7963584Z TRACE:: Config.Get(): Configuration key not found. Key: data-feed-handler - Using default value: FileSystemDataFeed
+2025-10-22T08:38:47.7963757Z TRACE:: Config.Get(): Configuration key not found. Key: result-handler - Using default value: BacktestingResultHandler
+2025-10-22T08:38:47.7963925Z TRACE:: Config.Get(): Configuration key not found. Key: map-file-provider - Using default value: LocalDiskMapFileProvider
+2025-10-22T08:38:47.7964337Z TRACE:: Config.Get(): Configuration key not found. Key: factor-file-provider - Using default value: LocalDiskFactorFileProvider
+2025-10-22T08:38:47.7964605Z TRACE:: Config.Get(): Configuration key not found. Key: data-provider - Using default value: DefaultDataProvider
+2025-10-22T08:38:47.7964784Z TRACE:: Config.Get(): Configuration key not found. Key: object-store - Using default value: LocalObjectStore
+2025-10-22T08:38:47.7964927Z TRACE:: Config.Get(): Configuration key not found. Key: data-permission-manager - Using default value: DataPermissionManager
+2025-10-22T08:38:47.7965072Z TRACE:: Config.Get(): Configuration key not found. Key: data-monitor - Using default value: QuantConnect.Data.DataMonitor
+2025-10-22T08:38:47.8187993Z TRACE:: Config.GetValue(): algorithm-creation-timeout - Using default value: 90
+2025-10-22T08:38:47.8305113Z TRACE:: Config.GetValue(): zip-data-cache-provider - Using default value: 10
+2025-10-22T08:38:47.8320762Z TRACE:: Config.Get(): Configuration key not found. Key: fundamental-data-provider - Using default value: CoarseFundamentalDataProvider
+2025-10-22T08:38:47.8336366Z TRACE:: PythonInitializer.Initialize(): start...
+2025-10-22T08:38:47.8348454Z TRACE:: Config.GetValue(): python-additional-paths - Using default value: System.String[]
+2025-10-22T08:38:47.9273163Z TRACE:: PythonInitializer.Initialize(): ended
+2025-10-22T08:38:48.1870740Z TRACE:: QuantBook started; Is Python: True
+2025-10-22T08:38:48.3033439Z TRACE:: Config.GetValue(): downloader-data-update-period - Using default value: 7
+2025-10-22T08:38:48.3148485Z TRACE:: Config.Get(): Configuration key not found. Key: databases-refresh-period - Using default value: 1.00:00:00
+2025-10-22T08:38:48.3157998Z TRACE:: Config.GetValue(): ignore-unknown-asset-holdings - Using default value: True
+2025-10-22T08:38:48.4583808Z TRACE:: Extensions.IsDirectoryEmpty(): directory '../../../Data/market-hours' not found or empty
+2025-10-22T08:39:49.0732244Z TRACE:: Engine.Main(): LEAN ALGORITHMIC TRADING ENGINE v2.5.0.0 Mode: DEBUG (64bit) Host: crise50
+2025-10-22T08:39:49.0823035Z TRACE:: Engine.Main(): Started 8:39 AM
+2025-10-22T08:39:49.0828800Z TRACE:: Config.Get(): Configuration key not found. Key: job-queue-handler - Using default value: QuantConnect.Queues.JobQueue
+2025-10-22T08:39:49.0834598Z TRACE:: Config.Get(): Configuration key not found. Key: algorithm-type-name - Using default value: 
+2025-10-22T08:39:49.0835106Z TRACE:: Config.Get(): Configuration key not found. Key: algorithm-location - Using default value: QuantConnect.Algorithm.CSharp.dll
+2025-10-22T08:39:49.0839894Z TRACE:: Config.Get(): Configuration key not found. Key: api-handler - Using default value: QuantConnect.Api.Api
+2025-10-22T08:39:49.0867945Z TRACE:: Config.Get(): Configuration key not found. Key: messaging-handler - Using default value: QuantConnect.Messaging.Messaging
+2025-10-22T08:39:49.0874484Z TRACE:: Config.Get(): Configuration key not found. Key: lean-manager-type - Using default value: LocalLeanManager
+2025-10-22T08:39:49.1088421Z TRACE:: Config.Get(): Configuration key not found. Key: setup-handler - Using default value: ConsoleSetupHandler
+2025-10-22T08:39:49.1088948Z TRACE:: Config.Get(): Configuration key not found. Key: transaction-handler - Using default value: BacktestingTransactionHandler
+2025-10-22T08:39:49.1089230Z TRACE:: Config.Get(): Configuration key not found. Key: real-time-handler - Using default value: BacktestingRealTimeHandler
+2025-10-22T08:39:49.1089608Z TRACE:: Config.Get(): Configuration key not found. Key: data-feed-handler - Using default value: FileSystemDataFeed
+2025-10-22T08:39:49.1089844Z TRACE:: Config.Get(): Configuration key not found. Key: result-handler - Using default value: BacktestingResultHandler
+2025-10-22T08:39:49.1090080Z TRACE:: Config.Get(): Configuration key not found. Key: map-file-provider - Using default value: LocalDiskMapFileProvider
+2025-10-22T08:39:49.1090380Z TRACE:: Config.Get(): Configuration key not found. Key: factor-file-provider - Using default value: LocalDiskFactorFileProvider
+2025-10-22T08:39:49.1090754Z TRACE:: Config.Get(): Configuration key not found. Key: data-provider - Using default value: DefaultDataProvider
+2025-10-22T08:39:49.1091007Z TRACE:: Config.Get(): Configuration key not found. Key: object-store - Using default value: LocalObjectStore
+2025-10-22T08:39:49.1091236Z TRACE:: Config.Get(): Configuration key not found. Key: data-permission-manager - Using default value: DataPermissionManager
+2025-10-22T08:39:49.1091441Z TRACE:: Config.Get(): Configuration key not found. Key: data-monitor - Using default value: QuantConnect.Data.DataMonitor
+2025-10-22T08:39:49.1335929Z TRACE:: Config.GetValue(): algorithm-creation-timeout - Using default value: 90
+2025-10-22T08:39:49.1478219Z TRACE:: Config.GetValue(): zip-data-cache-provider - Using default value: 10
+2025-10-22T08:39:49.1494292Z TRACE:: Config.Get(): Configuration key not found. Key: fundamental-data-provider - Using default value: CoarseFundamentalDataProvider
+2025-10-22T08:39:49.1513267Z TRACE:: PythonInitializer.Initialize(): start...
+2025-10-22T08:39:49.1525242Z TRACE:: Config.GetValue(): python-additional-paths - Using default value: System.String[]
+2025-10-22T08:39:49.2410634Z TRACE:: PythonInitializer.Initialize(): ended
+2025-10-22T09:32:20.6290206Z TRACE:: Engine.Main(): LEAN ALGORITHMIC TRADING ENGINE v2.5.0.0 Mode: DEBUG (64bit) Host: crise50
+2025-10-22T09:32:20.6375253Z TRACE:: Engine.Main(): Started 9:32 AM
+2025-10-22T09:32:20.6380141Z TRACE:: Config.Get(): Configuration key not found. Key: job-queue-handler - Using default value: QuantConnect.Queues.JobQueue
+2025-10-22T09:32:20.6385734Z TRACE:: Config.Get(): Configuration key not found. Key: algorithm-type-name - Using default value: 
+2025-10-22T09:32:20.6386121Z TRACE:: Config.Get(): Configuration key not found. Key: algorithm-location - Using default value: QuantConnect.Algorithm.CSharp.dll
+2025-10-22T09:32:20.6391901Z TRACE:: Config.Get(): Configuration key not found. Key: api-handler - Using default value: QuantConnect.Api.Api
+2025-10-22T09:32:20.6428297Z TRACE:: Config.Get(): Configuration key not found. Key: messaging-handler - Using default value: QuantConnect.Messaging.Messaging
+2025-10-22T09:32:20.6435629Z TRACE:: Config.Get(): Configuration key not found. Key: lean-manager-type - Using default value: LocalLeanManager
+2025-10-22T09:32:20.6766548Z TRACE:: Config.Get(): Configuration key not found. Key: setup-handler - Using default value: ConsoleSetupHandler
+2025-10-22T09:32:20.6766885Z TRACE:: Config.Get(): Configuration key not found. Key: transaction-handler - Using default value: BacktestingTransactionHandler
+2025-10-22T09:32:20.6767135Z TRACE:: Config.Get(): Configuration key not found. Key: real-time-handler - Using default value: BacktestingRealTimeHandler
+2025-10-22T09:32:20.6767273Z TRACE:: Config.Get(): Configuration key not found. Key: data-feed-handler - Using default value: FileSystemDataFeed
+2025-10-22T09:32:20.6767406Z TRACE:: Config.Get(): Configuration key not found. Key: result-handler - Using default value: BacktestingResultHandler
+2025-10-22T09:32:20.6767556Z TRACE:: Config.Get(): Configuration key not found. Key: map-file-provider - Using default value: LocalDiskMapFileProvider
+2025-10-22T09:32:20.6767804Z TRACE:: Config.Get(): Configuration key not found. Key: factor-file-provider - Using default value: LocalDiskFactorFileProvider
+2025-10-22T09:32:20.6767949Z TRACE:: Config.Get(): Configuration key not found. Key: data-provider - Using default value: DefaultDataProvider
+2025-10-22T09:32:20.6768088Z TRACE:: Config.Get(): Configuration key not found. Key: object-store - Using default value: LocalObjectStore
+2025-10-22T09:32:20.6768294Z TRACE:: Config.Get(): Configuration key not found. Key: data-permission-manager - Using default value: DataPermissionManager
+2025-10-22T09:32:20.6768622Z TRACE:: Config.Get(): Configuration key not found. Key: data-monitor - Using default value: QuantConnect.Data.DataMonitor
+2025-10-22T09:32:20.6980756Z TRACE:: Config.GetValue(): algorithm-creation-timeout - Using default value: 90
+2025-10-22T09:32:20.7146894Z TRACE:: Config.GetValue(): zip-data-cache-provider - Using default value: 10
+2025-10-22T09:32:20.7168696Z TRACE:: Config.Get(): Configuration key not found. Key: fundamental-data-provider - Using default value: CoarseFundamentalDataProvider
+2025-10-22T09:32:20.7188077Z TRACE:: PythonInitializer.Initialize(): start...
+2025-10-22T09:32:20.7200766Z TRACE:: Config.GetValue(): python-additional-paths - Using default value: System.String[]
+2025-10-22T09:32:20.8226945Z TRACE:: PythonInitializer.Initialize(): ended
+2025-10-22T09:32:21.1728323Z TRACE:: QuantBook started; Is Python: True
+2025-10-22T09:32:21.2888757Z TRACE:: Config.GetValue(): downloader-data-update-period - Using default value: 7
+2025-10-22T09:32:21.3003295Z TRACE:: Config.Get(): Configuration key not found. Key: databases-refresh-period - Using default value: 1.00:00:00
+2025-10-22T09:32:21.3012114Z TRACE:: Config.GetValue(): ignore-unknown-asset-holdings - Using default value: True
+2025-10-22T09:32:21.4247592Z TRACE:: Extensions.IsDirectoryEmpty(): directory '../../../Data/market-hours' not found or empty
+2025-10-22T09:32:58.7856171Z TRACE:: Engine.Main(): LEAN ALGORITHMIC TRADING ENGINE v2.5.0.0 Mode: DEBUG (64bit) Host: crise50
+2025-10-22T09:32:58.7937756Z TRACE:: Engine.Main(): Started 9:32 AM
+2025-10-22T09:32:58.7941442Z TRACE:: Config.Get(): Configuration key not found. Key: job-queue-handler - Using default value: QuantConnect.Queues.JobQueue
+2025-10-22T09:32:58.7943544Z TRACE:: Config.Get(): Configuration key not found. Key: algorithm-type-name - Using default value: 
+2025-10-22T09:32:58.7943981Z TRACE:: Config.Get(): Configuration key not found. Key: algorithm-location - Using default value: QuantConnect.Algorithm.CSharp.dll
+2025-10-22T09:32:58.7947854Z TRACE:: Config.Get(): Configuration key not found. Key: api-handler - Using default value: QuantConnect.Api.Api
+2025-10-22T09:32:58.7979367Z TRACE:: Config.Get(): Configuration key not found. Key: messaging-handler - Using default value: QuantConnect.Messaging.Messaging
+2025-10-22T09:32:58.7982354Z TRACE:: Config.Get(): Configuration key not found. Key: lean-manager-type - Using default value: LocalLeanManager
+2025-10-22T09:32:58.8254389Z TRACE:: Config.Get(): Configuration key not found. Key: setup-handler - Using default value: ConsoleSetupHandler
+2025-10-22T09:32:58.8254829Z TRACE:: Config.Get(): Configuration key not found. Key: transaction-handler - Using default value: BacktestingTransactionHandler
+2025-10-22T09:32:58.8254983Z TRACE:: Config.Get(): Configuration key not found. Key: real-time-handler - Using default value: BacktestingRealTimeHandler
+2025-10-22T09:32:58.8255111Z TRACE:: Config.Get(): Configuration key not found. Key: data-feed-handler - Using default value: FileSystemDataFeed
+2025-10-22T09:32:58.8255239Z TRACE:: Config.Get(): Configuration key not found. Key: result-handler - Using default value: BacktestingResultHandler
+2025-10-22T09:32:58.8255511Z TRACE:: Config.Get(): Configuration key not found. Key: map-file-provider - Using default value: LocalDiskMapFileProvider
+2025-10-22T09:32:58.8255697Z TRACE:: Config.Get(): Configuration key not found. Key: factor-file-provider - Using default value: LocalDiskFactorFileProvider
+2025-10-22T09:32:58.8255833Z TRACE:: Config.Get(): Configuration key not found. Key: data-provider - Using default value: DefaultDataProvider
+2025-10-22T09:32:58.8255970Z TRACE:: Config.Get(): Configuration key not found. Key: object-store - Using default value: LocalObjectStore
+2025-10-22T09:32:58.8256179Z TRACE:: Config.Get(): Configuration key not found. Key: data-permission-manager - Using default value: DataPermissionManager
+2025-10-22T09:32:58.8256305Z TRACE:: Config.Get(): Configuration key not found. Key: data-monitor - Using default value: QuantConnect.Data.DataMonitor
+2025-10-22T09:32:58.8601706Z TRACE:: Config.GetValue(): algorithm-creation-timeout - Using default value: 90
+2025-10-22T09:32:58.8788319Z TRACE:: Config.GetValue(): zip-data-cache-provider - Using default value: 10
+2025-10-22T09:32:58.8814383Z TRACE:: Config.Get(): Configuration key not found. Key: fundamental-data-provider - Using default value: CoarseFundamentalDataProvider
+2025-10-22T09:32:58.8839120Z TRACE:: PythonInitializer.Initialize(): start...
+2025-10-22T09:32:58.8858706Z TRACE:: Config.GetValue(): python-additional-paths - Using default value: System.String[]
+2025-10-22T09:32:58.9714933Z TRACE:: PythonInitializer.Initialize(): ended
+2025-10-22T09:32:59.0716995Z TRACE:: QuantBook started; Is Python: True
+2025-10-22T09:32:59.3082216Z TRACE:: Config.GetValue(): downloader-data-update-period - Using default value: 7
+2025-10-22T09:32:59.3196879Z TRACE:: Config.Get(): Configuration key not found. Key: databases-refresh-period - Using default value: 1.00:00:00
+2025-10-22T09:32:59.3207312Z TRACE:: Config.GetValue(): ignore-unknown-asset-holdings - Using default value: True
+2025-10-22T09:32:59.4644172Z TRACE:: Extensions.IsDirectoryEmpty(): directory '../../../Data/market-hours' not found or empty
+2025-10-22T09:33:35.9477621Z TRACE:: Engine.Main(): LEAN ALGORITHMIC TRADING ENGINE v2.5.0.0 Mode: DEBUG (64bit) Host: crise50
+2025-10-22T09:33:35.9558378Z TRACE:: Engine.Main(): Started 9:33 AM
+2025-10-22T09:33:35.9562479Z TRACE:: Config.Get(): Configuration key not found. Key: job-queue-handler - Using default value: QuantConnect.Queues.JobQueue
+2025-10-22T09:33:35.9564514Z TRACE:: Config.Get(): Configuration key not found. Key: algorithm-type-name - Using default value: 
+2025-10-22T09:33:35.9565019Z TRACE:: Config.Get(): Configuration key not found. Key: algorithm-location - Using default value: QuantConnect.Algorithm.CSharp.dll
+2025-10-22T09:33:35.9570047Z TRACE:: Config.Get(): Configuration key not found. Key: api-handler - Using default value: QuantConnect.Api.Api
+2025-10-22T09:33:35.9601487Z TRACE:: Config.Get(): Configuration key not found. Key: messaging-handler - Using default value: QuantConnect.Messaging.Messaging
+2025-10-22T09:33:35.9607899Z TRACE:: Config.Get(): Configuration key not found. Key: lean-manager-type - Using default value: LocalLeanManager
+2025-10-22T09:33:35.9951223Z TRACE:: Config.Get(): Configuration key not found. Key: setup-handler - Using default value: ConsoleSetupHandler
+2025-10-22T09:33:35.9951849Z TRACE:: Config.Get(): Configuration key not found. Key: transaction-handler - Using default value: BacktestingTransactionHandler
+2025-10-22T09:33:35.9952301Z TRACE:: Config.Get(): Configuration key not found. Key: real-time-handler - Using default value: BacktestingRealTimeHandler
+2025-10-22T09:33:35.9952461Z TRACE:: Config.Get(): Configuration key not found. Key: data-feed-handler - Using default value: FileSystemDataFeed
+2025-10-22T09:33:35.9952590Z TRACE:: Config.Get(): Configuration key not found. Key: result-handler - Using default value: BacktestingResultHandler
+2025-10-22T09:33:35.9952741Z TRACE:: Config.Get(): Configuration key not found. Key: map-file-provider - Using default value: LocalDiskMapFileProvider
+2025-10-22T09:33:35.9953049Z TRACE:: Config.Get(): Configuration key not found. Key: factor-file-provider - Using default value: LocalDiskFactorFileProvider
+2025-10-22T09:33:35.9953185Z TRACE:: Config.Get(): Configuration key not found. Key: data-provider - Using default value: DefaultDataProvider
+2025-10-22T09:33:35.9953336Z TRACE:: Config.Get(): Configuration key not found. Key: object-store - Using default value: LocalObjectStore
+2025-10-22T09:33:35.9953468Z TRACE:: Config.Get(): Configuration key not found. Key: data-permission-manager - Using default value: DataPermissionManager
+2025-10-22T09:33:35.9953666Z TRACE:: Config.Get(): Configuration key not found. Key: data-monitor - Using default value: QuantConnect.Data.DataMonitor
+2025-10-22T09:33:36.0152709Z TRACE:: Config.GetValue(): algorithm-creation-timeout - Using default value: 90
+2025-10-22T09:33:36.0278106Z TRACE:: Config.GetValue(): zip-data-cache-provider - Using default value: 10
+2025-10-22T09:33:36.0294398Z TRACE:: Config.Get(): Configuration key not found. Key: fundamental-data-provider - Using default value: CoarseFundamentalDataProvider
+2025-10-22T09:33:36.0312906Z TRACE:: PythonInitializer.Initialize(): start...
+2025-10-22T09:33:36.0324731Z TRACE:: Config.GetValue(): python-additional-paths - Using default value: System.String[]
+2025-10-22T09:33:36.1130670Z TRACE:: PythonInitializer.Initialize(): ended
+2025-10-22T09:33:36.1989184Z TRACE:: QuantBook started; Is Python: True
+2025-10-22T09:33:36.3883735Z TRACE:: Config.GetValue(): downloader-data-update-period - Using default value: 7
+2025-10-22T09:33:36.3981043Z TRACE:: Config.Get(): Configuration key not found. Key: databases-refresh-period - Using default value: 1.00:00:00
+2025-10-22T09:33:36.3989124Z TRACE:: Config.GetValue(): ignore-unknown-asset-holdings - Using default value: True
+2025-10-22T09:33:36.5197981Z TRACE:: Extensions.IsDirectoryEmpty(): directory '../../../Data/market-hours' not found or empty
+2025-10-22T09:33:53.6949136Z TRACE:: Engine.Main(): LEAN ALGORITHMIC TRADING ENGINE v2.5.0.0 Mode: DEBUG (64bit) Host: crise50
+2025-10-22T09:33:53.7033390Z TRACE:: Engine.Main(): Started 9:33 AM
+2025-10-22T09:33:53.7037374Z TRACE:: Config.Get(): Configuration key not found. Key: job-queue-handler - Using default value: QuantConnect.Queues.JobQueue
+2025-10-22T09:33:53.7039398Z TRACE:: Config.Get(): Configuration key not found. Key: algorithm-type-name - Using default value: 
+2025-10-22T09:33:53.7039856Z TRACE:: Config.Get(): Configuration key not found. Key: algorithm-location - Using default value: QuantConnect.Algorithm.CSharp.dll
+2025-10-22T09:33:53.7044707Z TRACE:: Config.Get(): Configuration key not found. Key: api-handler - Using default value: QuantConnect.Api.Api
+2025-10-22T09:33:53.7078217Z TRACE:: Config.Get(): Configuration key not found. Key: messaging-handler - Using default value: QuantConnect.Messaging.Messaging
+2025-10-22T09:33:53.7085731Z TRACE:: Config.Get(): Configuration key not found. Key: lean-manager-type - Using default value: LocalLeanManager
+2025-10-22T09:33:53.7523440Z TRACE:: Config.Get(): Configuration key not found. Key: setup-handler - Using default value: ConsoleSetupHandler
+2025-10-22T09:33:53.7523963Z TRACE:: Config.Get(): Configuration key not found. Key: transaction-handler - Using default value: BacktestingTransactionHandler
+2025-10-22T09:33:53.7524356Z TRACE:: Config.Get(): Configuration key not found. Key: real-time-handler - Using default value: BacktestingRealTimeHandler
+2025-10-22T09:33:53.7524527Z TRACE:: Config.Get(): Configuration key not found. Key: data-feed-handler - Using default value: FileSystemDataFeed
+2025-10-22T09:33:53.7524674Z TRACE:: Config.Get(): Configuration key not found. Key: result-handler - Using default value: BacktestingResultHandler
+2025-10-22T09:33:53.7524839Z TRACE:: Config.Get(): Configuration key not found. Key: map-file-provider - Using default value: LocalDiskMapFileProvider
+2025-10-22T09:33:53.7525163Z TRACE:: Config.Get(): Configuration key not found. Key: factor-file-provider - Using default value: LocalDiskFactorFileProvider
+2025-10-22T09:33:53.7525336Z TRACE:: Config.Get(): Configuration key not found. Key: data-provider - Using default value: DefaultDataProvider
+2025-10-22T09:33:53.7525529Z TRACE:: Config.Get(): Configuration key not found. Key: object-store - Using default value: LocalObjectStore
+2025-10-22T09:33:53.7525694Z TRACE:: Config.Get(): Configuration key not found. Key: data-permission-manager - Using default value: DataPermissionManager
+2025-10-22T09:33:53.7525902Z TRACE:: Config.Get(): Configuration key not found. Key: data-monitor - Using default value: QuantConnect.Data.DataMonitor
+2025-10-22T09:33:53.7846943Z TRACE:: Config.GetValue(): algorithm-creation-timeout - Using default value: 90
+2025-10-22T09:33:53.8022601Z TRACE:: Config.GetValue(): zip-data-cache-provider - Using default value: 10
+2025-10-22T09:33:53.8040878Z TRACE:: Config.Get(): Configuration key not found. Key: fundamental-data-provider - Using default value: CoarseFundamentalDataProvider
+2025-10-22T09:33:53.8061135Z TRACE:: PythonInitializer.Initialize(): start...
+2025-10-22T09:33:53.8074716Z TRACE:: Config.GetValue(): python-additional-paths - Using default value: System.String[]
+2025-10-22T09:33:53.8931470Z TRACE:: PythonInitializer.Initialize(): ended
+2025-10-22T09:33:54.0208974Z TRACE:: QuantBook started; Is Python: True
+2025-10-22T09:33:54.1231767Z TRACE:: Config.GetValue(): downloader-data-update-period - Using default value: 7
+2025-10-22T09:33:54.1328996Z TRACE:: Config.Get(): Configuration key not found. Key: databases-refresh-period - Using default value: 1.00:00:00
+2025-10-22T09:33:54.1337010Z TRACE:: Config.GetValue(): ignore-unknown-asset-holdings - Using default value: True
+2025-10-22T09:33:54.2682899Z TRACE:: Extensions.IsDirectoryEmpty(): directory '../../../Data/market-hours' not found or empty
+2025-10-22T10:16:25.4641237Z TRACE:: Engine.Main(): LEAN ALGORITHMIC TRADING ENGINE v2.5.0.0 Mode: DEBUG (64bit) Host: crise50
+2025-10-22T10:16:25.4765983Z TRACE:: Engine.Main(): Started 10:16 AM
+2025-10-22T10:16:25.4772352Z TRACE:: Config.Get(): Configuration key not found. Key: job-queue-handler - Using default value: QuantConnect.Queues.JobQueue
+2025-10-22T10:16:25.4788054Z TRACE:: Config.Get(): Configuration key not found. Key: algorithm-type-name - Using default value: 
+2025-10-22T10:16:25.4788536Z TRACE:: Config.Get(): Configuration key not found. Key: algorithm-location - Using default value: QuantConnect.Algorithm.CSharp.dll
+2025-10-22T10:16:25.4794630Z TRACE:: Config.Get(): Configuration key not found. Key: api-handler - Using default value: QuantConnect.Api.Api
+2025-10-22T10:16:25.4850497Z TRACE:: Config.Get(): Configuration key not found. Key: messaging-handler - Using default value: QuantConnect.Messaging.Messaging
+2025-10-22T10:16:25.4866689Z TRACE:: Config.Get(): Configuration key not found. Key: lean-manager-type - Using default value: LocalLeanManager
+2025-10-22T10:16:25.5295636Z TRACE:: Config.Get(): Configuration key not found. Key: setup-handler - Using default value: ConsoleSetupHandler
+2025-10-22T10:16:25.5296234Z TRACE:: Config.Get(): Configuration key not found. Key: transaction-handler - Using default value: BacktestingTransactionHandler
+2025-10-22T10:16:25.5296444Z TRACE:: Config.Get(): Configuration key not found. Key: real-time-handler - Using default value: BacktestingRealTimeHandler
+2025-10-22T10:16:25.5296766Z TRACE:: Config.Get(): Configuration key not found. Key: data-feed-handler - Using default value: FileSystemDataFeed
+2025-10-22T10:16:25.5296934Z TRACE:: Config.Get(): Configuration key not found. Key: result-handler - Using default value: BacktestingResultHandler
+2025-10-22T10:16:25.5297208Z TRACE:: Config.Get(): Configuration key not found. Key: map-file-provider - Using default value: LocalDiskMapFileProvider
+2025-10-22T10:16:25.5297445Z TRACE:: Config.Get(): Configuration key not found. Key: factor-file-provider - Using default value: LocalDiskFactorFileProvider
+2025-10-22T10:16:25.5297613Z TRACE:: Config.Get(): Configuration key not found. Key: data-provider - Using default value: DefaultDataProvider
+2025-10-22T10:16:25.5297861Z TRACE:: Config.Get(): Configuration key not found. Key: object-store - Using default value: LocalObjectStore
+2025-10-22T10:16:25.5298109Z TRACE:: Config.Get(): Configuration key not found. Key: data-permission-manager - Using default value: DataPermissionManager
+2025-10-22T10:16:25.5298281Z TRACE:: Config.Get(): Configuration key not found. Key: data-monitor - Using default value: QuantConnect.Data.DataMonitor
+2025-10-22T10:16:25.5540122Z TRACE:: Config.GetValue(): algorithm-creation-timeout - Using default value: 90
+2025-10-22T10:16:25.5720243Z TRACE:: Config.GetValue(): zip-data-cache-provider - Using default value: 10
+2025-10-22T10:16:25.5737351Z TRACE:: Config.Get(): Configuration key not found. Key: fundamental-data-provider - Using default value: CoarseFundamentalDataProvider
+2025-10-22T10:16:25.5760174Z TRACE:: PythonInitializer.Initialize(): start...
+2025-10-22T10:16:25.5775958Z TRACE:: Config.GetValue(): python-additional-paths - Using default value: System.String[]
+2025-10-22T10:16:25.6744807Z TRACE:: PythonInitializer.Initialize(): ended
+2025-10-22T10:16:26.8463286Z TRACE:: QuantBook started; Is Python: True
+2025-10-22T10:16:26.9498437Z TRACE:: Config.GetValue(): downloader-data-update-period - Using default value: 7
+2025-10-22T10:16:26.9598551Z TRACE:: Config.Get(): Configuration key not found. Key: databases-refresh-period - Using default value: 1.00:00:00
+2025-10-22T10:16:26.9608470Z TRACE:: Config.GetValue(): ignore-unknown-asset-holdings - Using default value: True
+2025-10-22T10:16:27.0917109Z TRACE:: Extensions.IsDirectoryEmpty(): directory '../../../Data/market-hours' not found or empty
+2025-10-22T10:17:05.7713966Z TRACE:: Engine.Main(): LEAN ALGORITHMIC TRADING ENGINE v2.5.0.0 Mode: DEBUG (64bit) Host: crise50
+2025-10-22T10:17:05.7814111Z TRACE:: Engine.Main(): Started 10:17 AM
+2025-10-22T10:17:05.7819962Z TRACE:: Config.Get(): Configuration key not found. Key: job-queue-handler - Using default value: QuantConnect.Queues.JobQueue
+2025-10-22T10:17:05.7823644Z TRACE:: Config.Get(): Configuration key not found. Key: algorithm-type-name - Using default value: 
+2025-10-22T10:17:05.7824301Z TRACE:: Config.Get(): Configuration key not found. Key: algorithm-location - Using default value: QuantConnect.Algorithm.CSharp.dll
+2025-10-22T10:17:05.7829731Z TRACE:: Config.Get(): Configuration key not found. Key: api-handler - Using default value: QuantConnect.Api.Api
+2025-10-22T10:17:05.7871030Z TRACE:: Config.Get(): Configuration key not found. Key: messaging-handler - Using default value: QuantConnect.Messaging.Messaging
+2025-10-22T10:17:05.7876033Z TRACE:: Config.Get(): Configuration key not found. Key: lean-manager-type - Using default value: LocalLeanManager
+2025-10-22T10:17:05.8288394Z TRACE:: Config.Get(): Configuration key not found. Key: setup-handler - Using default value: ConsoleSetupHandler
+2025-10-22T10:17:05.8288827Z TRACE:: Config.Get(): Configuration key not found. Key: transaction-handler - Using default value: BacktestingTransactionHandler
+2025-10-22T10:17:05.8289158Z TRACE:: Config.Get(): Configuration key not found. Key: real-time-handler - Using default value: BacktestingRealTimeHandler
+2025-10-22T10:17:05.8289322Z TRACE:: Config.Get(): Configuration key not found. Key: data-feed-handler - Using default value: FileSystemDataFeed
+2025-10-22T10:17:05.8289664Z TRACE:: Config.Get(): Configuration key not found. Key: result-handler - Using default value: BacktestingResultHandler
+2025-10-22T10:17:05.8289819Z TRACE:: Config.Get(): Configuration key not found. Key: map-file-provider - Using default value: LocalDiskMapFileProvider
+2025-10-22T10:17:05.8290119Z TRACE:: Config.Get(): Configuration key not found. Key: factor-file-provider - Using default value: LocalDiskFactorFileProvider
+2025-10-22T10:17:05.8290262Z TRACE:: Config.Get(): Configuration key not found. Key: data-provider - Using default value: DefaultDataProvider
+2025-10-22T10:17:05.8290516Z TRACE:: Config.Get(): Configuration key not found. Key: object-store - Using default value: LocalObjectStore
+2025-10-22T10:17:05.8290648Z TRACE:: Config.Get(): Configuration key not found. Key: data-permission-manager - Using default value: DataPermissionManager
+2025-10-22T10:17:05.8290878Z TRACE:: Config.Get(): Configuration key not found. Key: data-monitor - Using default value: QuantConnect.Data.DataMonitor
+2025-10-22T10:17:05.8506347Z TRACE:: Config.GetValue(): algorithm-creation-timeout - Using default value: 90
+2025-10-22T10:17:05.8658059Z TRACE:: Config.GetValue(): zip-data-cache-provider - Using default value: 10
+2025-10-22T10:17:05.8672983Z TRACE:: Config.Get(): Configuration key not found. Key: fundamental-data-provider - Using default value: CoarseFundamentalDataProvider
+2025-10-22T10:17:05.8689330Z TRACE:: PythonInitializer.Initialize(): start...
+2025-10-22T10:17:05.8702361Z TRACE:: Config.GetValue(): python-additional-paths - Using default value: System.String[]
+2025-10-22T10:17:05.9607479Z TRACE:: PythonInitializer.Initialize(): ended
+2025-10-22T10:17:14.3814745Z TRACE:: QuantBook started; Is Python: True
+2025-10-22T10:17:14.4960857Z TRACE:: Config.GetValue(): downloader-data-update-period - Using default value: 7
+2025-10-22T10:17:14.5055372Z TRACE:: Config.Get(): Configuration key not found. Key: databases-refresh-period - Using default value: 1.00:00:00
+2025-10-22T10:17:14.5065518Z TRACE:: Config.GetValue(): ignore-unknown-asset-holdings - Using default value: True
+2025-10-22T10:17:14.6265728Z TRACE:: Extensions.IsDirectoryEmpty(): directory '../../../Data/market-hours' not found or empty
+2025-10-22T10:18:35.0196620Z TRACE:: Engine.Main(): LEAN ALGORITHMIC TRADING ENGINE v2.5.0.0 Mode: DEBUG (64bit) Host: crise50
+2025-10-22T10:18:35.0263572Z TRACE:: Engine.Main(): Started 10:18 AM
+2025-10-22T10:18:35.0268010Z TRACE:: Config.Get(): Configuration key not found. Key: job-queue-handler - Using default value: QuantConnect.Queues.JobQueue
+2025-10-22T10:18:35.0270048Z TRACE:: Config.Get(): Configuration key not found. Key: algorithm-type-name - Using default value: 
+2025-10-22T10:18:35.0270479Z TRACE:: Config.Get(): Configuration key not found. Key: algorithm-location - Using default value: QuantConnect.Algorithm.CSharp.dll
+2025-10-22T10:18:35.0274743Z TRACE:: Config.Get(): Configuration key not found. Key: api-handler - Using default value: QuantConnect.Api.Api
+2025-10-22T10:18:35.0306553Z TRACE:: Config.Get(): Configuration key not found. Key: messaging-handler - Using default value: QuantConnect.Messaging.Messaging
+2025-10-22T10:18:35.0315962Z TRACE:: Config.Get(): Configuration key not found. Key: lean-manager-type - Using default value: LocalLeanManager
+2025-10-22T10:18:35.0610337Z TRACE:: Config.Get(): Configuration key not found. Key: setup-handler - Using default value: ConsoleSetupHandler
+2025-10-22T10:18:35.0610759Z TRACE:: Config.Get(): Configuration key not found. Key: transaction-handler - Using default value: BacktestingTransactionHandler
+2025-10-22T10:18:35.0610916Z TRACE:: Config.Get(): Configuration key not found. Key: real-time-handler - Using default value: BacktestingRealTimeHandler
+2025-10-22T10:18:35.0611161Z TRACE:: Config.Get(): Configuration key not found. Key: data-feed-handler - Using default value: FileSystemDataFeed
+2025-10-22T10:18:35.0611311Z TRACE:: Config.Get(): Configuration key not found. Key: result-handler - Using default value: BacktestingResultHandler
+2025-10-22T10:18:35.0611589Z TRACE:: Config.Get(): Configuration key not found. Key: map-file-provider - Using default value: LocalDiskMapFileProvider
+2025-10-22T10:18:35.0611781Z TRACE:: Config.Get(): Configuration key not found. Key: factor-file-provider - Using default value: LocalDiskFactorFileProvider
+2025-10-22T10:18:35.0611987Z TRACE:: Config.Get(): Configuration key not found. Key: data-provider - Using default value: DefaultDataProvider
+2025-10-22T10:18:35.0612142Z TRACE:: Config.Get(): Configuration key not found. Key: object-store - Using default value: LocalObjectStore
+2025-10-22T10:18:35.0612329Z TRACE:: Config.Get(): Configuration key not found. Key: data-permission-manager - Using default value: DataPermissionManager
+2025-10-22T10:18:35.0612486Z TRACE:: Config.Get(): Configuration key not found. Key: data-monitor - Using default value: QuantConnect.Data.DataMonitor
+2025-10-22T10:18:35.0903744Z TRACE:: Config.GetValue(): algorithm-creation-timeout - Using default value: 90
+2025-10-22T10:18:35.1075308Z TRACE:: Config.GetValue(): zip-data-cache-provider - Using default value: 10
+2025-10-22T10:18:35.1093443Z TRACE:: Config.Get(): Configuration key not found. Key: fundamental-data-provider - Using default value: CoarseFundamentalDataProvider
+2025-10-22T10:18:35.1112728Z TRACE:: PythonInitializer.Initialize(): start...
+2025-10-22T10:18:35.1126838Z TRACE:: Config.GetValue(): python-additional-paths - Using default value: System.String[]
+2025-10-22T10:18:35.2080326Z TRACE:: PythonInitializer.Initialize(): ended
+2025-10-22T10:18:35.4909837Z TRACE:: QuantBook started; Is Python: True
+2025-10-22T10:18:35.5874170Z TRACE:: Config.GetValue(): downloader-data-update-period - Using default value: 7
+2025-10-22T10:18:35.5971801Z TRACE:: Config.Get(): Configuration key not found. Key: databases-refresh-period - Using default value: 1.00:00:00
+2025-10-22T10:18:35.5980306Z TRACE:: Config.GetValue(): ignore-unknown-asset-holdings - Using default value: True
+2025-10-22T10:18:35.7208251Z TRACE:: Extensions.IsDirectoryEmpty(): directory '../../../Data/market-hours' not found or empty
+2025-10-22T11:13:01.7186322Z TRACE:: Engine.Main(): LEAN ALGORITHMIC TRADING ENGINE v2.5.0.0 Mode: DEBUG (64bit) Host: crise50
+2025-10-22T11:13:01.7257498Z TRACE:: Engine.Main(): Started 11:13 AM
+2025-10-22T11:13:01.7261145Z TRACE:: Config.Get(): Configuration key not found. Key: job-queue-handler - Using default value: QuantConnect.Queues.JobQueue
+2025-10-22T11:13:01.7266319Z TRACE:: Config.Get(): Configuration key not found. Key: algorithm-type-name - Using default value: 
+2025-10-22T11:13:01.7266739Z TRACE:: Config.Get(): Configuration key not found. Key: algorithm-location - Using default value: QuantConnect.Algorithm.CSharp.dll
+2025-10-22T11:13:01.7270996Z TRACE:: Config.Get(): Configuration key not found. Key: api-handler - Using default value: QuantConnect.Api.Api
+2025-10-22T11:13:01.7295752Z TRACE:: Config.Get(): Configuration key not found. Key: messaging-handler - Using default value: QuantConnect.Messaging.Messaging
+2025-10-22T11:13:01.7299478Z TRACE:: Config.Get(): Configuration key not found. Key: lean-manager-type - Using default value: LocalLeanManager
+2025-10-22T11:13:01.7527289Z TRACE:: Config.Get(): Configuration key not found. Key: setup-handler - Using default value: ConsoleSetupHandler
+2025-10-22T11:13:01.7527683Z TRACE:: Config.Get(): Configuration key not found. Key: transaction-handler - Using default value: BacktestingTransactionHandler
+2025-10-22T11:13:01.7527853Z TRACE:: Config.Get(): Configuration key not found. Key: real-time-handler - Using default value: BacktestingRealTimeHandler
+2025-10-22T11:13:01.7528105Z TRACE:: Config.Get(): Configuration key not found. Key: data-feed-handler - Using default value: FileSystemDataFeed
+2025-10-22T11:13:01.7528259Z TRACE:: Config.Get(): Configuration key not found. Key: result-handler - Using default value: BacktestingResultHandler
+2025-10-22T11:13:01.7528420Z TRACE:: Config.Get(): Configuration key not found. Key: map-file-provider - Using default value: LocalDiskMapFileProvider
+2025-10-22T11:13:01.7528825Z TRACE:: Config.Get(): Configuration key not found. Key: factor-file-provider - Using default value: LocalDiskFactorFileProvider
+2025-10-22T11:13:01.7529055Z TRACE:: Config.Get(): Configuration key not found. Key: data-provider - Using default value: DefaultDataProvider
+2025-10-22T11:13:01.7529265Z TRACE:: Config.Get(): Configuration key not found. Key: object-store - Using default value: LocalObjectStore
+2025-10-22T11:13:01.7529534Z TRACE:: Config.Get(): Configuration key not found. Key: data-permission-manager - Using default value: DataPermissionManager
+2025-10-22T11:13:01.7529681Z TRACE:: Config.Get(): Configuration key not found. Key: data-monitor - Using default value: QuantConnect.Data.DataMonitor
+2025-10-22T11:13:01.7769258Z TRACE:: Config.GetValue(): algorithm-creation-timeout - Using default value: 90
+2025-10-22T11:13:01.7905953Z TRACE:: Config.GetValue(): zip-data-cache-provider - Using default value: 10
+2025-10-22T11:13:01.7921346Z TRACE:: Config.Get(): Configuration key not found. Key: fundamental-data-provider - Using default value: CoarseFundamentalDataProvider
+2025-10-22T11:13:01.7940756Z TRACE:: PythonInitializer.Initialize(): start...
+2025-10-22T11:13:01.7952141Z TRACE:: Config.GetValue(): python-additional-paths - Using default value: System.String[]
+2025-10-22T11:13:01.8835294Z TRACE:: PythonInitializer.Initialize(): ended
+2025-10-22T11:13:02.1747068Z TRACE:: QuantBook started; Is Python: True
+2025-10-22T11:13:02.2801914Z TRACE:: Config.GetValue(): downloader-data-update-period - Using default value: 7
+2025-10-22T11:13:02.2897815Z TRACE:: Config.Get(): Configuration key not found. Key: databases-refresh-period - Using default value: 1.00:00:00
+2025-10-22T11:13:02.2906488Z TRACE:: Config.GetValue(): ignore-unknown-asset-holdings - Using default value: True
+2025-10-22T11:13:02.4147092Z TRACE:: Extensions.IsDirectoryEmpty(): directory '../../../Data/market-hours' not found or empty
+2025-10-22T11:13:28.0680707Z TRACE:: Engine.Main(): LEAN ALGORITHMIC TRADING ENGINE v2.5.0.0 Mode: DEBUG (64bit) Host: crise50
+2025-10-22T11:13:28.0773572Z TRACE:: Engine.Main(): Started 11:13 AM
+2025-10-22T11:13:28.0779915Z TRACE:: Config.Get(): Configuration key not found. Key: job-queue-handler - Using default value: QuantConnect.Queues.JobQueue
+2025-10-22T11:13:28.0783252Z TRACE:: Config.Get(): Configuration key not found. Key: algorithm-type-name - Using default value: 
+2025-10-22T11:13:28.0783874Z TRACE:: Config.Get(): Configuration key not found. Key: algorithm-location - Using default value: QuantConnect.Algorithm.CSharp.dll
+2025-10-22T11:13:28.0791443Z TRACE:: Config.Get(): Configuration key not found. Key: api-handler - Using default value: QuantConnect.Api.Api
+2025-10-22T11:13:28.0836038Z TRACE:: Config.Get(): Configuration key not found. Key: messaging-handler - Using default value: QuantConnect.Messaging.Messaging
+2025-10-22T11:13:28.0842528Z TRACE:: Config.Get(): Configuration key not found. Key: lean-manager-type - Using default value: LocalLeanManager
+2025-10-22T11:13:28.1178285Z TRACE:: Config.Get(): Configuration key not found. Key: setup-handler - Using default value: ConsoleSetupHandler
+2025-10-22T11:13:28.1178784Z TRACE:: Config.Get(): Configuration key not found. Key: transaction-handler - Using default value: BacktestingTransactionHandler
+2025-10-22T11:13:28.1179249Z TRACE:: Config.Get(): Configuration key not found. Key: real-time-handler - Using default value: BacktestingRealTimeHandler
+2025-10-22T11:13:28.1179565Z TRACE:: Config.Get(): Configuration key not found. Key: data-feed-handler - Using default value: FileSystemDataFeed
+2025-10-22T11:13:28.1179846Z TRACE:: Config.Get(): Configuration key not found. Key: result-handler - Using default value: BacktestingResultHandler
+2025-10-22T11:13:28.1180169Z TRACE:: Config.Get(): Configuration key not found. Key: map-file-provider - Using default value: LocalDiskMapFileProvider
+2025-10-22T11:13:28.1180759Z TRACE:: Config.Get(): Configuration key not found. Key: factor-file-provider - Using default value: LocalDiskFactorFileProvider
+2025-10-22T11:13:28.1181518Z TRACE:: Config.Get(): Configuration key not found. Key: data-provider - Using default value: DefaultDataProvider
+2025-10-22T11:13:28.1181856Z TRACE:: Config.Get(): Configuration key not found. Key: object-store - Using default value: LocalObjectStore
+2025-10-22T11:13:28.1182150Z TRACE:: Config.Get(): Configuration key not found. Key: data-permission-manager - Using default value: DataPermissionManager
+2025-10-22T11:13:28.1182548Z TRACE:: Config.Get(): Configuration key not found. Key: data-monitor - Using default value: QuantConnect.Data.DataMonitor
+2025-10-22T11:13:28.1438168Z TRACE:: Config.GetValue(): algorithm-creation-timeout - Using default value: 90
+2025-10-22T11:13:28.1575655Z TRACE:: Config.GetValue(): zip-data-cache-provider - Using default value: 10
+2025-10-22T11:13:28.1594168Z TRACE:: Config.Get(): Configuration key not found. Key: fundamental-data-provider - Using default value: CoarseFundamentalDataProvider
+2025-10-22T11:13:28.1612657Z TRACE:: PythonInitializer.Initialize(): start...
+2025-10-22T11:13:28.1626628Z TRACE:: Config.GetValue(): python-additional-paths - Using default value: System.String[]
+2025-10-22T11:13:28.2437693Z TRACE:: PythonInitializer.Initialize(): ended
+2025-10-22T11:13:28.5253893Z TRACE:: QuantBook started; Is Python: True
+2025-10-22T11:13:28.6218488Z TRACE:: Config.GetValue(): downloader-data-update-period - Using default value: 7
+2025-10-22T11:13:28.6314336Z TRACE:: Config.Get(): Configuration key not found. Key: databases-refresh-period - Using default value: 1.00:00:00
+2025-10-22T11:13:28.6322613Z TRACE:: Config.GetValue(): ignore-unknown-asset-holdings - Using default value: True
+2025-10-22T11:13:28.7552169Z TRACE:: Extensions.IsDirectoryEmpty(): directory '../../../Data/market-hours' not found or empty
+2025-10-22T11:13:38.9175305Z TRACE:: Engine.Main(): LEAN ALGORITHMIC TRADING ENGINE v2.5.0.0 Mode: DEBUG (64bit) Host: crise50
+2025-10-22T11:13:38.9254782Z TRACE:: Engine.Main(): Started 11:13 AM
+2025-10-22T11:13:38.9258925Z TRACE:: Config.Get(): Configuration key not found. Key: job-queue-handler - Using default value: QuantConnect.Queues.JobQueue
+2025-10-22T11:13:38.9269361Z TRACE:: Config.Get(): Configuration key not found. Key: algorithm-type-name - Using default value: 
+2025-10-22T11:13:38.9269948Z TRACE:: Config.Get(): Configuration key not found. Key: algorithm-location - Using default value: QuantConnect.Algorithm.CSharp.dll
+2025-10-22T11:13:38.9275114Z TRACE:: Config.Get(): Configuration key not found. Key: api-handler - Using default value: QuantConnect.Api.Api
+2025-10-22T11:13:38.9309675Z TRACE:: Config.Get(): Configuration key not found. Key: messaging-handler - Using default value: QuantConnect.Messaging.Messaging
+2025-10-22T11:13:38.9319957Z TRACE:: Config.Get(): Configuration key not found. Key: lean-manager-type - Using default value: LocalLeanManager
+2025-10-22T11:13:38.9666833Z TRACE:: Config.Get(): Configuration key not found. Key: setup-handler - Using default value: ConsoleSetupHandler
+2025-10-22T11:13:38.9667346Z TRACE:: Config.Get(): Configuration key not found. Key: transaction-handler - Using default value: BacktestingTransactionHandler
+2025-10-22T11:13:38.9667639Z TRACE:: Config.Get(): Configuration key not found. Key: real-time-handler - Using default value: BacktestingRealTimeHandler
+2025-10-22T11:13:38.9668100Z TRACE:: Config.Get(): Configuration key not found. Key: data-feed-handler - Using default value: FileSystemDataFeed
+2025-10-22T11:13:38.9668480Z TRACE:: Config.Get(): Configuration key not found. Key: result-handler - Using default value: BacktestingResultHandler
+2025-10-22T11:13:38.9668793Z TRACE:: Config.Get(): Configuration key not found. Key: map-file-provider - Using default value: LocalDiskMapFileProvider
+2025-10-22T11:13:38.9669228Z TRACE:: Config.Get(): Configuration key not found. Key: factor-file-provider - Using default value: LocalDiskFactorFileProvider
+2025-10-22T11:13:38.9669686Z TRACE:: Config.Get(): Configuration key not found. Key: data-provider - Using default value: DefaultDataProvider
+2025-10-22T11:13:38.9670297Z TRACE:: Config.Get(): Configuration key not found. Key: object-store - Using default value: LocalObjectStore
+2025-10-22T11:13:38.9670698Z TRACE:: Config.Get(): Configuration key not found. Key: data-permission-manager - Using default value: DataPermissionManager
+2025-10-22T11:13:38.9670973Z TRACE:: Config.Get(): Configuration key not found. Key: data-monitor - Using default value: QuantConnect.Data.DataMonitor
+2025-10-22T11:13:38.9975781Z TRACE:: Config.GetValue(): algorithm-creation-timeout - Using default value: 90
+2025-10-22T11:13:39.0102069Z TRACE:: Config.GetValue(): zip-data-cache-provider - Using default value: 10
+2025-10-22T11:13:39.0118134Z TRACE:: Config.Get(): Configuration key not found. Key: fundamental-data-provider - Using default value: CoarseFundamentalDataProvider
+2025-10-22T11:13:39.0136263Z TRACE:: PythonInitializer.Initialize(): start...
+2025-10-22T11:13:39.0149300Z TRACE:: Config.GetValue(): python-additional-paths - Using default value: System.String[]
+2025-10-22T11:13:39.1060279Z TRACE:: PythonInitializer.Initialize(): ended
+2025-10-22T11:16:58.6901310Z TRACE:: Engine.Main(): LEAN ALGORITHMIC TRADING ENGINE v2.5.0.0 Mode: DEBUG (64bit) Host: crise50
+2025-10-22T11:16:58.7009323Z TRACE:: Engine.Main(): Started 11:16 AM
+2025-10-22T11:16:58.7018443Z TRACE:: Config.Get(): Configuration key not found. Key: job-queue-handler - Using default value: QuantConnect.Queues.JobQueue
+2025-10-22T11:16:58.7021680Z TRACE:: Config.Get(): Configuration key not found. Key: algorithm-type-name - Using default value: 
+2025-10-22T11:16:58.7022146Z TRACE:: Config.Get(): Configuration key not found. Key: algorithm-location - Using default value: QuantConnect.Algorithm.CSharp.dll
+2025-10-22T11:16:58.7030294Z TRACE:: Config.Get(): Configuration key not found. Key: api-handler - Using default value: QuantConnect.Api.Api
+2025-10-22T11:16:58.7096550Z TRACE:: Config.Get(): Configuration key not found. Key: messaging-handler - Using default value: QuantConnect.Messaging.Messaging
+2025-10-22T11:16:58.7107455Z TRACE:: Config.Get(): Configuration key not found. Key: lean-manager-type - Using default value: LocalLeanManager
+2025-10-22T11:16:58.7546079Z TRACE:: Config.Get(): Configuration key not found. Key: setup-handler - Using default value: ConsoleSetupHandler
+2025-10-22T11:16:58.7546645Z TRACE:: Config.Get(): Configuration key not found. Key: transaction-handler - Using default value: BacktestingTransactionHandler
+2025-10-22T11:16:58.7546915Z TRACE:: Config.Get(): Configuration key not found. Key: real-time-handler - Using default value: BacktestingRealTimeHandler
+2025-10-22T11:16:58.7547555Z TRACE:: Config.Get(): Configuration key not found. Key: data-feed-handler - Using default value: FileSystemDataFeed
+2025-10-22T11:16:58.7547794Z TRACE:: Config.Get(): Configuration key not found. Key: result-handler - Using default value: BacktestingResultHandler
+2025-10-22T11:16:58.7548065Z TRACE:: Config.Get(): Configuration key not found. Key: map-file-provider - Using default value: LocalDiskMapFileProvider
+2025-10-22T11:16:58.7548471Z TRACE:: Config.Get(): Configuration key not found. Key: factor-file-provider - Using default value: LocalDiskFactorFileProvider
+2025-10-22T11:16:58.7548967Z TRACE:: Config.Get(): Configuration key not found. Key: data-provider - Using default value: DefaultDataProvider
+2025-10-22T11:16:58.7549244Z TRACE:: Config.Get(): Configuration key not found. Key: object-store - Using default value: LocalObjectStore
+2025-10-22T11:16:58.7549489Z TRACE:: Config.Get(): Configuration key not found. Key: data-permission-manager - Using default value: DataPermissionManager
+2025-10-22T11:16:58.7549720Z TRACE:: Config.Get(): Configuration key not found. Key: data-monitor - Using default value: QuantConnect.Data.DataMonitor
+2025-10-22T11:16:58.7838717Z TRACE:: Config.GetValue(): algorithm-creation-timeout - Using default value: 90
+2025-10-22T11:16:58.7969641Z TRACE:: Config.GetValue(): zip-data-cache-provider - Using default value: 10
+2025-10-22T11:16:58.7986799Z TRACE:: Config.Get(): Configuration key not found. Key: fundamental-data-provider - Using default value: CoarseFundamentalDataProvider
+2025-10-22T11:16:58.8004440Z TRACE:: PythonInitializer.Initialize(): start...
+2025-10-22T11:16:58.8017566Z TRACE:: Config.GetValue(): python-additional-paths - Using default value: System.String[]
+2025-10-22T11:16:58.8806266Z TRACE:: PythonInitializer.Initialize(): ended
+2025-10-22T11:16:59.1552237Z TRACE:: QuantBook started; Is Python: True
+2025-10-22T11:16:59.2526603Z TRACE:: Config.GetValue(): downloader-data-update-period - Using default value: 7
+2025-10-22T11:16:59.2618017Z TRACE:: Config.Get(): Configuration key not found. Key: databases-refresh-period - Using default value: 1.00:00:00
+2025-10-22T11:16:59.2625637Z TRACE:: Config.GetValue(): ignore-unknown-asset-holdings - Using default value: True
+2025-10-22T11:16:59.3813592Z TRACE:: Extensions.IsDirectoryEmpty(): directory '../../../Data/market-hours' not found or empty
+2025-10-23T01:52:28.1394974Z TRACE:: Engine.Main(): LEAN ALGORITHMIC TRADING ENGINE v2.5.0.0 Mode: DEBUG (64bit) Host: crise50
+2025-10-23T01:52:28.1484168Z TRACE:: Engine.Main(): Started 1:52 AM
+2025-10-23T01:52:28.1490111Z TRACE:: Config.Get(): Configuration key not found. Key: job-queue-handler - Using default value: QuantConnect.Queues.JobQueue
+2025-10-23T01:52:28.1493258Z TRACE:: Config.Get(): Configuration key not found. Key: algorithm-type-name - Using default value: 
+2025-10-23T01:52:28.1493919Z TRACE:: Config.Get(): Configuration key not found. Key: algorithm-location - Using default value: QuantConnect.Algorithm.CSharp.dll
+2025-10-23T01:52:28.1504495Z TRACE:: Config.Get(): Configuration key not found. Key: api-handler - Using default value: QuantConnect.Api.Api
+2025-10-23T01:52:28.1554412Z TRACE:: Config.Get(): Configuration key not found. Key: messaging-handler - Using default value: QuantConnect.Messaging.Messaging
+2025-10-23T01:52:28.1562458Z TRACE:: Config.Get(): Configuration key not found. Key: lean-manager-type - Using default value: LocalLeanManager
+2025-10-23T01:52:28.1893809Z TRACE:: Config.Get(): Configuration key not found. Key: setup-handler - Using default value: ConsoleSetupHandler
+2025-10-23T01:52:28.1894438Z TRACE:: Config.Get(): Configuration key not found. Key: transaction-handler - Using default value: BacktestingTransactionHandler
+2025-10-23T01:52:28.1894747Z TRACE:: Config.Get(): Configuration key not found. Key: real-time-handler - Using default value: BacktestingRealTimeHandler
+2025-10-23T01:52:28.1895195Z TRACE:: Config.Get(): Configuration key not found. Key: data-feed-handler - Using default value: FileSystemDataFeed
+2025-10-23T01:52:28.1895490Z TRACE:: Config.Get(): Configuration key not found. Key: result-handler - Using default value: BacktestingResultHandler
+2025-10-23T01:52:28.1895824Z TRACE:: Config.Get(): Configuration key not found. Key: map-file-provider - Using default value: LocalDiskMapFileProvider
+2025-10-23T01:52:28.1896223Z TRACE:: Config.Get(): Configuration key not found. Key: factor-file-provider - Using default value: LocalDiskFactorFileProvider
+2025-10-23T01:52:28.1896635Z TRACE:: Config.Get(): Configuration key not found. Key: data-provider - Using default value: DefaultDataProvider
+2025-10-23T01:52:28.1896982Z TRACE:: Config.Get(): Configuration key not found. Key: object-store - Using default value: LocalObjectStore
+2025-10-23T01:52:28.1897307Z TRACE:: Config.Get(): Configuration key not found. Key: data-permission-manager - Using default value: DataPermissionManager
+2025-10-23T01:52:28.1897698Z TRACE:: Config.Get(): Configuration key not found. Key: data-monitor - Using default value: QuantConnect.Data.DataMonitor
+2025-10-23T01:52:28.2130274Z TRACE:: Config.GetValue(): algorithm-creation-timeout - Using default value: 90
+2025-10-23T01:52:28.2286139Z TRACE:: Config.GetValue(): zip-data-cache-provider - Using default value: 10
+2025-10-23T01:52:28.2304155Z TRACE:: Config.Get(): Configuration key not found. Key: fundamental-data-provider - Using default value: CoarseFundamentalDataProvider
+2025-10-23T01:52:28.2323754Z TRACE:: PythonInitializer.Initialize(): start...
+2025-10-23T01:52:28.2336628Z TRACE:: Config.GetValue(): python-additional-paths - Using default value: System.String[]
+2025-10-23T01:52:28.3118650Z TRACE:: PythonInitializer.Initialize(): ended
+2025-10-23T01:52:28.6466901Z TRACE:: QuantBook started; Is Python: True
+2025-10-23T01:52:28.7629251Z TRACE:: Config.GetValue(): downloader-data-update-period - Using default value: 7
+2025-10-23T01:52:28.7742530Z TRACE:: Config.Get(): Configuration key not found. Key: databases-refresh-period - Using default value: 1.00:00:00
+2025-10-23T01:52:28.7751465Z TRACE:: Config.GetValue(): ignore-unknown-asset-holdings - Using default value: True
+2025-10-23T01:52:28.9145670Z TRACE:: Extensions.IsDirectoryEmpty(): directory '../../../Data/market-hours' not found or empty
+2025-10-23T07:09:22.7141744Z TRACE:: Engine.Main(): LEAN ALGORITHMIC TRADING ENGINE v2.5.0.0 Mode: DEBUG (64bit) Host: crise50
+2025-10-23T07:09:22.7234681Z TRACE:: Engine.Main(): Started 7:09 AM
+2025-10-23T07:09:22.7238857Z TRACE:: Config.Get(): Configuration key not found. Key: job-queue-handler - Using default value: QuantConnect.Queues.JobQueue
+2025-10-23T07:09:22.7240977Z TRACE:: Config.Get(): Configuration key not found. Key: algorithm-type-name - Using default value: 
+2025-10-23T07:09:22.7241408Z TRACE:: Config.Get(): Configuration key not found. Key: algorithm-location - Using default value: QuantConnect.Algorithm.CSharp.dll
+2025-10-23T07:09:22.7245971Z TRACE:: Config.Get(): Configuration key not found. Key: api-handler - Using default value: QuantConnect.Api.Api
+2025-10-23T07:09:22.7271166Z TRACE:: Config.Get(): Configuration key not found. Key: messaging-handler - Using default value: QuantConnect.Messaging.Messaging
+2025-10-23T07:09:22.7274427Z TRACE:: Config.Get(): Configuration key not found. Key: lean-manager-type - Using default value: LocalLeanManager
+2025-10-23T07:09:22.7573409Z TRACE:: Config.Get(): Configuration key not found. Key: setup-handler - Using default value: ConsoleSetupHandler
+2025-10-23T07:09:22.7573840Z TRACE:: Config.Get(): Configuration key not found. Key: transaction-handler - Using default value: BacktestingTransactionHandler
+2025-10-23T07:09:22.7574029Z TRACE:: Config.Get(): Configuration key not found. Key: real-time-handler - Using default value: BacktestingRealTimeHandler
+2025-10-23T07:09:22.7574322Z TRACE:: Config.Get(): Configuration key not found. Key: data-feed-handler - Using default value: FileSystemDataFeed
+2025-10-23T07:09:22.7574538Z TRACE:: Config.Get(): Configuration key not found. Key: result-handler - Using default value: BacktestingResultHandler
+2025-10-23T07:09:22.7574726Z TRACE:: Config.Get(): Configuration key not found. Key: map-file-provider - Using default value: LocalDiskMapFileProvider
+2025-10-23T07:09:22.7574941Z TRACE:: Config.Get(): Configuration key not found. Key: factor-file-provider - Using default value: LocalDiskFactorFileProvider
+2025-10-23T07:09:22.7575194Z TRACE:: Config.Get(): Configuration key not found. Key: data-provider - Using default value: DefaultDataProvider
+2025-10-23T07:09:22.7575407Z TRACE:: Config.Get(): Configuration key not found. Key: object-store - Using default value: LocalObjectStore
+2025-10-23T07:09:22.7575581Z TRACE:: Config.Get(): Configuration key not found. Key: data-permission-manager - Using default value: DataPermissionManager
+2025-10-23T07:09:22.7575764Z TRACE:: Config.Get(): Configuration key not found. Key: data-monitor - Using default value: QuantConnect.Data.DataMonitor
+2025-10-23T07:09:22.7861139Z TRACE:: Config.GetValue(): algorithm-creation-timeout - Using default value: 90
+2025-10-23T07:09:22.8023072Z TRACE:: Config.GetValue(): zip-data-cache-provider - Using default value: 10
+2025-10-23T07:09:22.8041428Z TRACE:: Config.Get(): Configuration key not found. Key: fundamental-data-provider - Using default value: CoarseFundamentalDataProvider
+2025-10-23T07:09:22.8064001Z TRACE:: PythonInitializer.Initialize(): start...
+2025-10-23T07:09:22.8078096Z TRACE:: Config.GetValue(): python-additional-paths - Using default value: System.String[]
+2025-10-23T07:09:22.8993349Z TRACE:: PythonInitializer.Initialize(): ended
