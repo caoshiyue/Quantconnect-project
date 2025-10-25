@@ -1,0 +1,17 @@
+{
+    "name": "auto-notebook-runner",
+    "displayName": "Auto Notebook Runner",
+    "description": "Automatically run .ipynb, execute .py, modify .ipynb, and re-run it in VS Code.",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.80.0"
+    },
+    "main": "./extension.js",
+    "activationEvents": ["onStartupFinished"],
+    "contributes": {
+        "commands": [{
+            "command": "autoNotebook.runCycle",
+            "title": "Auto Notebook Runner: Run Notebook-Py-Notebook Cycle"
+        }]
+    }
+}

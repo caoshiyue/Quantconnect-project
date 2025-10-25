@@ -45,6 +45,6 @@ def add_batch_cells_to_notebook(
 add_batch_cells_to_notebook(
     input_nb_path="02_data_download.ipynb",   # 你的原始 notebook 路径
     output_nb_path="02_data_download_cells.ipynb",  # 输出路径
-    batch_count=500,              # 自动根据 batches 长度添加
+    batch_count=35,              # 自动根据 batches 长度添加
     max_workers=2
 )
