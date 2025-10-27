@@ -6,9 +6,11 @@ import re
 import json
 import base64
 from pathlib import Path
+import time
+notebook_path = "02_data_download_run.ipynb"
 
-notebook_path = "02_data_download_cells.ipynb"
 
+time.sleep(10)  # 等待文件写入完成
 # ===   读取 notebook 文件 ===
 with open(notebook_path, "r", encoding="utf-8") as f:
     nb = json.load(f)
@@ -19,6 +21,7 @@ for cell in nb.get("cells", []):
     if cell.get("cell_type") != "code":
         continue
     source = "".join(cell.get("source", []))
+    
     # 找到第一个包含 find_files 的 cell（即打印文件列表的）
     if "find_files" in source:
         for output in cell.get("outputs", []):
@@ -88,6 +91,7 @@ else:
     for filename in valid_files:
         # 路径替换：将 /Data/... 映射到 ../data/...
         local_path = filename.replace("/Data", "../data", 1)
+        local_path = local_path.replace("future_old", "future", 1)
         dir_name = os.path.dirname(local_path)
         if dir_name:
             os.makedirs(dir_name, exist_ok=True)

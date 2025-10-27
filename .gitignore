@@ -9,3 +9,4 @@ storage
 profit.png
 *.pyc
 qc.code-workspace
+log.*
