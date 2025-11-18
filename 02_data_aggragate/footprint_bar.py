@@ -1,7 +1,7 @@
 from AlgorithmImports import *
 from typing import Dict
 from datetime import datetime, timedelta
-from footprint_utils import price_to_bucket, split_volume_by_side
+from footprint_utils import price_to_bucket, split_volume_by_side, micro_allocate_volume
 
 class FootprintBar(QuoteBar):
     """FootprintBar aggregates trade/quote info over a target period.
@@ -149,48 +149,26 @@ class FootprintBar(QuoteBar):
         self.update_from_quotebar(q)
         self.update_from_tradebar(t)
 
-        # Split volume into buy/sell
-        buy_v, sell_v = split_volume_by_side(t, q)
+        # Micro-allocation along O->H->L->C against bid/ask paths
+        buy_v, sell_v, bucket_deltas = micro_allocate_volume(
+            tradebar=t,
+            quotebar=q,
+            tick_size=self.tick_size,
+        )
+
+        # Totals
         self.buy_volume += buy_v
         self.sell_volume += sell_v
         self.delta = self.buy_volume - self.sell_volume
 
-        # Distribute volume across the price range of the 1-second bar
-        total_bar_volume = buy_v + sell_v
-        if total_bar_volume > 0 and self.tick_size > 0:
-            start_price = min(t.open, t.close)
-            end_price = max(t.open, t.close)
-            
-            start_bucket = price_to_bucket(start_price, self.tick_size)
-            end_bucket = price_to_bucket(end_price, self.tick_size)
-
-            # Determine the number of ticks in the range
-            num_ticks = int(round((end_bucket - start_bucket) / self.tick_size)) + 1
-            
-            if num_ticks > 0:
-                buy_v_per_tick = buy_v / num_ticks
-                sell_v_per_tick = sell_v / num_ticks
-
-                # Iterate through each price bucket and distribute volume
-                current_bucket_price = start_bucket
-                for _ in range(num_ticks):
-                    entry = self.volume_at_price.get(current_bucket_price)
-                    if entry is None:
-                        entry = {"bid": 0.0, "ask": 0.0}
-                        self.volume_at_price[current_bucket_price] = entry
-                    
-                    entry["ask"] += buy_v_per_tick
-                    entry["bid"] += sell_v_per_tick
-                    
-                    current_bucket_price += self.tick_size
-            else: # If open and close are in the same bucket, attribute all to that bucket
-                price_bucket = price_to_bucket(t.close, self.tick_size)
-                entry = self.volume_at_price.get(price_bucket)
-                if entry is None:
-                    entry = {"bid": 0.0, "ask": 0.0}
-                    self.volume_at_price[price_bucket] = entry
-                entry["ask"] += buy_v
-                entry["bid"] += sell_v
+        # Per-price distribution
+        for price_bucket, deltas in bucket_deltas.items():
+            entry = self.volume_at_price.get(price_bucket)
+            if entry is None:
+                entry = {"bid": 0.0, "ask": 0.0}
+                self.volume_at_price[price_bucket] = entry
+            entry["ask"] += deltas.get("ask", 0.0)
+            entry["bid"] += deltas.get("bid", 0.0)
 
     def finalize(self, end_time: datetime) -> None:
         self.end_time = end_time
