@@ -5,5 +5,6 @@
     "description": "",
     "organization-id": "5107b492b765e84eae12aac5d08a3898",
     "python-venv": 1,
-    "deployment-target": "Cloud Platform"
+    "deployment-target": "Local Platform",
+    "local-id": 161618246
 }

@@ -1,8 +1,8 @@
 <!--
  * @Author:  
  * @Description:  
- * @LastEditors: Shiyuec
- * @LastEditTime: 2025-10-23 11:21:55
+ * @LastEditors: caoshiyue caoshiyueKevin@Gmail.com
+ * @LastEditTime: 2025-11-18 01:24:49
 -->
 
 ---
@@ -165,3 +165,19 @@ MyProject/
 ```
 
 ---
+##  11. vscode 插件安装
+安装quantconnect 插件，然后在插件设置中的
+
+"quantConnect.executablePath.lean": "/data1/shiyue.cao/miniconda3/envs/quant/bin/lean"
+"quantConnect.executablePath.docker": "/usr/bin/docker"
+"quantConnect.lean.init": "/data1/shiyue.cao/quant"
+
+
+##  12. 关于调试问题
+
+调试.ipynb, 由于debug 本地.py会指向容器中的路径/Lean/Launcher/bin/Debug/Notebooks/xxx.py，因此在本地我们先创建一个/Lean/Launcher/bin/Debug/， 给权限，然后通过软连接映射到项目路径下。
+
+
+##  13. 关于连续期货
+
+由于合约切换，需要在代码中设定切换规则， data_mapping_mode=DataMappingMode.OPEN_INTEREST_ANNUAL

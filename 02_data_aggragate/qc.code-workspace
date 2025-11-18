@@ -50,9 +50,12 @@
             "/data1/shiyue.cao/quant/Fat Violet Pelican/**/*.py": false,
             "/data1/shiyue.cao/quant/Fat Violet Pelican/**/*.cs": false,
             "/data1/shiyue.cao/quant/Fat Violet Pelican/**/*.ipynb": false,
-            "/data1/shiyue.cao/quant/02_data_aggragate/**/*.py": true,
-            "/data1/shiyue.cao/quant/02_data_aggragate/**/*.cs": true,
-            "/data1/shiyue.cao/quant/02_data_aggragate/**/*.ipynb": true
-        }
+            "/data1/shiyue.cao/quant/02_data_aggragate/**/*.py": false,
+            "/data1/shiyue.cao/quant/02_data_aggragate/**/*.cs": false,
+            "/data1/shiyue.cao/quant/02_data_aggragate/**/*.ipynb": false
+        },
+        "cursorpyright.analysis.extraPaths": [
+            "/data1/shiyue.cao/quant/Library"
+        ]
     }
 }
