@@ -148,7 +148,7 @@ def micro_allocate_volume(
     tradebar: TradeBar,
     quotebar: QuoteBar,
     tick_size: float,
-    alpha: float = 1.0,
+    alpha: float = 1,
     n_min: int = 20,
     n_max: int = 300,
 ) -> Tuple[float, float, Dict[float, Dict[str, float]]]:

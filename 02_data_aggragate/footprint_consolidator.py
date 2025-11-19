@@ -80,7 +80,8 @@ class FootprintConsolidator:
                 self.bid = type('Bar', (), bid_bar_props)()
                 self.ask = type('Bar', (), ask_bar_props)()
 
-        for timestamp, row in df_filtered.iterrows():
+        for row in df_filtered.itertuples():
+            timestamp = row.Index
             bar_end_time = timestamp + timedelta(seconds=1)
             
             if current_fp is None:

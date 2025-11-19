@@ -3,6 +3,14 @@ from datetime import timedelta
 from footprint_consolidator import FootprintConsolidator
 from footprint_bar import FootprintBar
 
+
+
+
+from datetime import timedelta, datetime
+from QuantConnect.Data.Consolidators import PythonConsolidator
+from QuantConnect.Data.Market import TradeBar
+from AlgorithmImports import *
+
 class FatVioletPelican(QCAlgorithm):
     def Initialize(self):
         # Project defaults
