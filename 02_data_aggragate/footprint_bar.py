@@ -1,7 +1,7 @@
 from AlgorithmImports import *
 from typing import Dict
 from datetime import datetime, timedelta
-from footprint_utils import price_to_bucket, split_volume_by_side, micro_allocate_volume
+#from footprint_utils import price_to_bucket, split_volume_by_side, micro_allocate_volume
 
 class FootprintBar(QuoteBar):
     """FootprintBar aggregates trade/quote info over a target period.
@@ -144,31 +144,31 @@ class FootprintBar(QuoteBar):
         self._trade_close = price_c
         self.total_volume += vol
 
-    def update_pair(self, t: TradeBar, q: QuoteBar) -> None:
-        """Update the footprint using a matched per-second TradeBar and QuoteBar."""
-        self.update_from_quotebar(q)
-        self.update_from_tradebar(t)
+    # def update_pair(self, t: TradeBar, q: QuoteBar) -> None:
+    #     """Update the footprint using a matched per-second TradeBar and QuoteBar."""
+    #     self.update_from_quotebar(q)
+    #     self.update_from_tradebar(t)
 
-        # Micro-allocation along O->H->L->C against bid/ask paths
-        buy_v, sell_v, bucket_deltas = micro_allocate_volume(
-            tradebar=t,
-            quotebar=q,
-            tick_size=self.tick_size,
-        )
+    #     # Micro-allocation along O->H->L->C against bid/ask paths
+    #     buy_v, sell_v, bucket_deltas = micro_allocate_volume(
+    #         tradebar=t,
+    #         quotebar=q,
+    #         tick_size=self.tick_size,
+    #     )
 
-        # Totals
-        self.buy_volume += buy_v
-        self.sell_volume += sell_v
-        self.delta = self.buy_volume - self.sell_volume
+    #     # Totals
+    #     self.buy_volume += buy_v
+    #     self.sell_volume += sell_v
+    #     self.delta = self.buy_volume - self.sell_volume
 
-        # Per-price distribution
-        for price_bucket, deltas in bucket_deltas.items():
-            entry = self.volume_at_price.get(price_bucket)
-            if entry is None:
-                entry = {"bid": 0.0, "ask": 0.0}
-                self.volume_at_price[price_bucket] = entry
-            entry["ask"] += deltas.get("ask", 0.0)
-            entry["bid"] += deltas.get("bid", 0.0)
+    #     # Per-price distribution
+    #     for price_bucket, deltas in bucket_deltas.items():
+    #         entry = self.volume_at_price.get(price_bucket)
+    #         if entry is None:
+    #             entry = {"bid": 0.0, "ask": 0.0}
+    #             self.volume_at_price[price_bucket] = entry
+    #         entry["ask"] += deltas.get("ask", 0.0)
+    #         entry["bid"] += deltas.get("bid", 0.0)
 
     def finalize(self, end_time: datetime) -> None:
         self.end_time = end_time

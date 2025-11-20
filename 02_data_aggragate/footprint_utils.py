@@ -1,6 +1,7 @@
 from AlgorithmImports import *
 from typing import Dict, List, Tuple
 import math
+import numpy as np
 
 def midprice(quote: QuoteBar) -> float:
     """Return mid price using the quote's close bid/ask when available; fall back to average of available fields."""
@@ -30,47 +31,63 @@ def price_to_bucket(price: float, tick_size: float) -> float:
     ticks = round(price / tick_size + 1e-9)
     return ticks * tick_size
 
-def classify_aggressor(tradebar: TradeBar, quote: QuoteBar) -> str:
-    """Heuristic to classify per-second trade flow aggressor relative to the quote close.
-    - If trade price > mid-price -> 'buy'
-    - If trade price < mid-price -> 'sell'
-    - Else -> 'mixed'
-    """
-    if tradebar is None or quote is None:
-        return 'mixed'
+# def classify_aggressor(tradebar: TradeBar, quote: QuoteBar) -> str:
+#     """Heuristic to classify per-second trade flow aggressor using microprice.
+#     - If trade price > microprice -> 'buy'
+#     - If trade price < microprice -> 'sell'
+#     - Else -> 'mixed' (to be split by imbalance)
+#     """
+#     if tradebar is None or quote is None:
+#         return 'mixed'
 
-    bid_close = getattr(quote.bid, 'close', None)
-    ask_close = getattr(quote.ask, 'close', None)
-    t_close = getattr(tradebar, 'close', None)
+#     t_close = getattr(tradebar, 'close', None)
+#     bid_close = getattr(quote.bid, 'close', None)
+#     ask_close = getattr(quote.ask, 'close', None)
+#     bid_size = getattr(quote, 'last_bid_size', 0.0)
+#     ask_size = getattr(quote, 'last_ask_size', 0.0)
     
-    if t_close is None or bid_close is None or ask_close is None or bid_close <= 0 or ask_close <= 0:
-        return 'mixed'
-
-    mid_price = 0.5 * (bid_close + ask_close)
-
-    if t_close > mid_price:
-        return 'buy'
+#     if t_close is None or bid_close is None or ask_close is None or bid_close <= 0 or ask_close <= 0:
+#         return 'mixed'
         
-    if t_close < mid_price:
-        return 'sell'
-    
-    return 'mixed'
+#     total_size = bid_size + ask_size
+#     if total_size <= 0:
+#         # Fallback to mid-price if sizes are not available
+#         microprice = 0.5 * (bid_close + ask_close)
+#     else:
+#         microprice = (ask_close * bid_size + bid_close * ask_size) / total_size
 
-def split_volume_by_side(tradebar: TradeBar, quote: QuoteBar):
-    """Split the bar volume into (buy_volume, sell_volume) using a simple aggressor heuristic.
-    If classification is 'mixed', split 50/50. Returns a tuple (buy, sell). 已经被新版OHLC 方案代替
-    """
-    volume = float(getattr(tradebar, 'volume', 0.0) or 0.0)
-    side = classify_aggressor(tradebar, quote)
+#     if t_close > microprice:
+#         return 'buy'
+#     if t_close < microprice:
+#         return 'sell'
     
-    if side == 'buy':
-        return volume, 0.0
-    if side == 'sell':
-        return 0.0, volume
+#     return 'mixed'
+
+# def split_volume_by_side(tradebar: TradeBar, quote: QuoteBar):
+#     """Split the bar volume into (buy_volume, sell_volume) using aggressor heuristic.
+#     If classification is 'mixed', split by order imbalance.
+#     """
+#     volume = float(getattr(tradebar, 'volume', 0.0) or 0.0)
+#     side = classify_aggressor(tradebar, quote)
+    
+#     if side == 'buy':
+#         return volume, 0.0
+#     if side == 'sell':
+#         return 0.0, volume
         
-    # mixed
-    half = 0.5 * volume
-    return half, half
+#     # 'mixed' case: split by order imbalance if available
+#     bid_size = getattr(quote, 'last_bid_size', 0.0)
+#     ask_size = getattr(quote, 'last_ask_size', 0.0)
+#     total_size = bid_size + ask_size
+
+#     if total_size > 0:
+#         buy_weight = bid_size / total_size # Trade at mid hits the bid side of the new quote
+#         sell_weight = ask_size / total_size
+#         return volume * sell_weight, volume * buy_weight
+#     else:
+#         # Fallback to 50/50 if no size data
+#         half = 0.5 * volume
+#         return half, half
 
 def merge_quote_intervals(quotes: List[QuoteBar]) -> QuoteBar:
     """Merge a list of QuoteBars into a single QuoteBar by OHLC aggregation.
@@ -102,7 +119,7 @@ def merge_quote_intervals(quotes: List[QuoteBar]) -> QuoteBar:
     merged.ask = merge_side('ask')
     return merged
 
-def _compute_micro_count(total_volume: float, alpha: float = 1.0, n_min: int = 20, n_max: int = 300) -> int:
+def _compute_micro_count(total_volume: float, alpha: float = 1.0, n_min: int = 9, n_max: int = 90) -> int:
     if total_volume is None or total_volume <= 0:
         return 0
     n = int(alpha * float(total_volume))
@@ -112,125 +129,235 @@ def _compute_micro_count(total_volume: float, alpha: float = 1.0, n_min: int = 2
         n = n_max
     return n
 
-def _build_path_points(o: float, h: float, l: float, c: float, n_points: int) -> List[float]:
-    """Construct a deterministic O->H->L->C piecewise-linear path with exactly n_points samples.
-    We split counts roughly evenly across three segments. Within each segment we linearly interpolate
-    without including segment endpoints to avoid duplicates across segments.
-    """
+# def _build_path_points(o: float, h: float, l: float, c: float, n_points: int) -> List[float]:
+#     """Construct a deterministic O->H->L->C piecewise-linear path with exactly n_points samples.
+#     We split counts roughly evenly across three segments. Within each segment we linearly interpolate
+#     without including segment endpoints to avoid duplicates across segments.
+#     """
+#     if n_points <= 0:
+#         return []
+#     # Three segments: O->H, H->L, L->C
+#     n1 = n_points // 3
+#     n2 = n_points // 3
+#     n3 = n_points - n1 - n2
+#     segments = [(o, h, n1), (h, l, n2), (l, c, n3)]
+#     pts: List[float] = []
+#     for start, end, k in segments:
+#         if k <= 0:
+#             continue
+#         if start == end:
+#             pts.extend([start] * k)
+#         else:
+#             step = (end - start) / float(k)
+#             # endpoint-excluding linspace
+#             pts.extend([start + i * step for i in range(1, k + 1)])
+#     # Adjust length if off by rounding
+#     if len(pts) > n_points:
+#         pts = pts[:n_points]
+#     elif len(pts) < n_points:
+#         if pts:
+#             pts.extend([pts[-1]] * (n_points - len(pts)))
+#         else:
+#             pts = [o] * n_points
+#     return pts
+
+def _build_path_points_np(o: float, h: float, l: float, c: float, n_points: int) -> np.ndarray:
     if n_points <= 0:
-        return []
-    # Three segments: O->H, H->L, L->C
+        return np.empty(0, dtype=float)
     n1 = n_points // 3
     n2 = n_points // 3
     n3 = n_points - n1 - n2
-    segments = [(o, h, n1), (h, l, n2), (l, c, n3)]
-    pts: List[float] = []
-    for start, end, k in segments:
+    segs = [(o, h, n1), (h, l, n2), (l, c, n3)]
+    parts: List[np.ndarray] = []
+    for start, end, k in segs:
         if k <= 0:
             continue
         if start == end:
-            pts.extend([start] * k)
+            parts.append(np.full(k, start, dtype=float))
         else:
+            # endpoint-excluding linear steps of size (end-start)/k
             step = (end - start) / float(k)
-            # endpoint-excluding linspace
-            pts.extend([start + i * step for i in range(1, k + 1)])
-    # Adjust length if off by rounding
-    if len(pts) > n_points:
-        pts = pts[:n_points]
-    elif len(pts) < n_points:
-        if pts:
-            pts.extend([pts[-1]] * (n_points - len(pts)))
-        else:
-            pts = [o] * n_points
-    return pts
+            parts.append(start + step * np.arange(1, k + 1, dtype=float))
+    if not parts:
+        return np.full(n_points, o, dtype=float)
+    out = np.concatenate(parts)
+    if out.size > n_points:
+        out = out[:n_points]
+    elif out.size < n_points:
+        out = np.pad(out, (0, n_points - out.size), mode='edge')
+    return out
 
-def micro_allocate_volume(
-    tradebar: TradeBar,
-    quotebar: QuoteBar,
+# def micro_allocate_volume(
+#     tradebar: TradeBar,
+#     quotebar: QuoteBar,
+#     tick_size: float,
+#     alpha: float = 1.0,
+#     n_min: int = 9,
+#     n_max: int = 90,
+# ) -> Tuple[float, float, Dict[float, Dict[str, float]]]:
+#     """Allocate a second's total volume into micro-trades along O->H->L->C and distribute
+#     buy/sell using spread distance weighting against reconstructed bid/ask paths.
+
+#     Vectorized with NumPy for performance.
+#     Returns (buy_total, sell_total, per_bucket_deltas{"ask":buy, "bid":sell}).
+#     """
+#     if tradebar is None or quotebar is None:
+#         return 0.0, 0.0, {}
+
+#     vol = float(getattr(tradebar, 'volume', 0.0) or 0.0)
+#     if vol <= 0:
+#         return 0.0, 0.0, {}
+
+#     t_o = float(getattr(tradebar, 'open', 0.0) or 0.0)
+#     t_h = float(getattr(tradebar, 'high', 0.0) or 0.0)
+#     t_l = float(getattr(tradebar, 'low', 0.0) or 0.0)
+#     t_c = float(getattr(tradebar, 'close', 0.0) or 0.0)
+
+#     bid_bar = getattr(quotebar, 'bid', None)
+#     ask_bar = getattr(quotebar, 'ask', None)
+#     b_o = float(getattr(bid_bar, 'open', 0.0) or 0.0)
+#     b_h = float(getattr(bid_bar, 'high', 0.0) or 0.0)
+#     b_l = float(getattr(bid_bar, 'low', 0.0) or 0.0)
+#     b_c = float(getattr(bid_bar, 'close', 0.0) or 0.0)
+
+#     a_o = float(getattr(ask_bar, 'open', 0.0) or 0.0)
+#     a_h = float(getattr(ask_bar, 'high', 0.0) or 0.0)
+#     a_l = float(getattr(ask_bar, 'low', 0.0) or 0.0)
+#     a_c = float(getattr(ask_bar, 'close', 0.0) or 0.0)
+
+#     n = _compute_micro_count(vol, alpha=alpha, n_min=n_min, n_max=n_max)
+#     if n <= 0:
+#         return 0.0, 0.0, {}
+
+#     price_path = _build_path_points_np(t_o, t_h, t_l, t_c, n)
+#     bid_path = _build_path_points_np(b_o, b_h, b_l, b_c, n)
+#     ask_path = _build_path_points_np(a_o, a_h, a_l, a_c, n)
+
+#     micro_v = vol / float(n)
+#     spread = ask_path - bid_path
+
+#     buy_inc = np.zeros(n, dtype=float)
+#     sell_inc = np.zeros(n, dtype=float)
+
+#     # Cases
+#     nonpos_spread = spread <= 0
+#     in_spread = ~nonpos_spread & (price_path > bid_path) & (price_path < ask_path)
+#     at_or_above = ~nonpos_spread & (price_path >= ask_path)
+#     at_or_below = ~nonpos_spread & (price_path <= bid_path)
+
+#     # Non-positive spread -> 50/50
+#     buy_inc[nonpos_spread] = 0.5 * micro_v
+#     sell_inc[nonpos_spread] = micro_v - buy_inc[nonpos_spread]
+
+#     # At/above ask -> all buy
+#     buy_inc[at_or_above] = micro_v
+#     sell_inc[at_or_above] = 0.0
+
+#     # At/below bid -> all sell
+#     buy_inc[at_or_below] = 0.0
+#     sell_inc[at_or_below] = micro_v
+
+#     # Inside spread -> distance weighting
+#     if np.any(in_spread):
+#         frac = (price_path[in_spread] - bid_path[in_spread]) / spread[in_spread]
+#         frac = np.clip(frac, 0.0, 1.0)
+#         buy_inc[in_spread] = micro_v * frac
+#         sell_inc[in_spread] = micro_v - buy_inc[in_spread]
+
+#     buy_total = float(buy_inc.sum())
+#     sell_total = float(sell_inc.sum())
+
+#     bucket_deltas: Dict[float, Dict[str, float]] = {}
+#     if tick_size and tick_size > 0:
+#         bucket_ints = np.rint(price_path / tick_size).astype(np.int64)
+#         uniq, inv = np.unique(bucket_ints, return_inverse=True)
+#         ask_sums = np.zeros(uniq.size, dtype=float)
+#         bid_sums = np.zeros(uniq.size, dtype=float)
+#         np.add.at(ask_sums, inv, buy_inc)
+#         np.add.at(bid_sums, inv, sell_inc)
+#         for i, ui in enumerate(uniq):
+#             price = float(ui * tick_size)
+#             bucket_deltas[price] = {"ask": float(ask_sums[i]), "bid": float(bid_sums[i])}
+#     else:
+#         # Fallback: aggregate exact prices (less stable due to float uniqueness)
+#         uniq, inv = np.unique(price_path, return_inverse=True)
+#         ask_sums = np.zeros(uniq.size, dtype=float)
+#         bid_sums = np.zeros(uniq.size, dtype=float)
+#         np.add.at(ask_sums, inv, buy_inc)
+#         np.add.at(bid_sums, inv, sell_inc)
+#         for i, up in enumerate(uniq):
+#             bucket_deltas[float(up)] = {"ask": float(ask_sums[i]), "bid": float(bid_sums[i])}
+
+#     return buy_total, sell_total, bucket_deltas
+
+def micro_allocate_volume_raw(
+    t_o: float, t_h: float, t_l: float, t_c: float, volume: float,
+    b_o: float, b_h: float, b_l: float, b_c: float,
+    a_o: float, a_h: float, a_l: float, a_c: float,
     tick_size: float,
-    alpha: float = 1,
+    alpha: float = 1.0,
     n_min: int = 20,
     n_max: int = 300,
 ) -> Tuple[float, float, Dict[float, Dict[str, float]]]:
-    """Allocate a second's total volume into micro-trades along O->H->L->C and distribute
-    buy/sell using spread distance weighting against reconstructed bid/ask paths.
-
-    Returns (buy_total, sell_total, per_bucket_deltas{"ask":buy, "bid":sell}).
-    """
-    if tradebar is None or quotebar is None:
+    """Same logic as micro_allocate_volume but using raw OHLC scalars to avoid object creation overhead."""
+    if volume is None or volume <= 0:
         return 0.0, 0.0, {}
 
-    vol = float(getattr(tradebar, 'volume', 0.0) or 0.0)
-    if vol <= 0:
-        return 0.0, 0.0, {}
-
-    t_o = float(getattr(tradebar, 'open', 0.0) or 0.0)
-    t_h = float(getattr(tradebar, 'high', 0.0) or 0.0)
-    t_l = float(getattr(tradebar, 'low', 0.0) or 0.0)
-    t_c = float(getattr(tradebar, 'close', 0.0) or 0.0)
-
-    b_o = float(getattr(getattr(quotebar, 'bid', None), 'open', 0.0) or 0.0)
-    b_h = float(getattr(getattr(quotebar, 'bid', None), 'high', 0.0) or 0.0)
-    b_l = float(getattr(getattr(quotebar, 'bid', None), 'low', 0.0) or 0.0)
-    b_c = float(getattr(getattr(quotebar, 'bid', None), 'close', 0.0) or 0.0)
-
-    a_o = float(getattr(getattr(quotebar, 'ask', None), 'open', 0.0) or 0.0)
-    a_h = float(getattr(getattr(quotebar, 'ask', None), 'high', 0.0) or 0.0)
-    a_l = float(getattr(getattr(quotebar, 'ask', None), 'low', 0.0) or 0.0)
-    a_c = float(getattr(getattr(quotebar, 'ask', None), 'close', 0.0) or 0.0)
-
-    n = _compute_micro_count(vol, alpha=alpha, n_min=n_min, n_max=n_max)
+    n = _compute_micro_count(volume, alpha=alpha, n_min=n_min, n_max=n_max)
     if n <= 0:
         return 0.0, 0.0, {}
 
-    price_path = _build_path_points(t_o, t_h, t_l, t_c, n)
-    bid_path = _build_path_points(b_o, b_h, b_l, b_c, n)
-    ask_path = _build_path_points(a_o, a_h, a_l, a_c, n)
+    price_path = _build_path_points_np(t_o, t_h, t_l, t_c, n)
+    bid_path = _build_path_points_np(b_o, b_h, b_l, b_c, n)
+    ask_path = _build_path_points_np(a_o, a_h, a_l, a_c, n)
 
-    micro_v = vol / float(n)
-    buy_total = 0.0
-    sell_total = 0.0
+    micro_v = volume / float(n)
+    spread = ask_path - bid_path
+
+    buy_inc = np.zeros(n, dtype=float)
+    sell_inc = np.zeros(n, dtype=float)
+
+    nonpos_spread = spread <= 0
+    in_spread = ~nonpos_spread & (price_path > bid_path) & (price_path < ask_path)
+    at_or_above = ~nonpos_spread & (price_path >= ask_path)
+    at_or_below = ~nonpos_spread & (price_path <= bid_path)
+
+    buy_inc[nonpos_spread] = 0.5 * micro_v
+    sell_inc[nonpos_spread] = micro_v - buy_inc[nonpos_spread]
+
+    buy_inc[at_or_above] = micro_v
+    sell_inc[at_or_above] = 0.0
+
+    buy_inc[at_or_below] = 0.0
+    sell_inc[at_or_below] = micro_v
+
+    if np.any(in_spread):
+        frac = (price_path[in_spread] - bid_path[in_spread]) / spread[in_spread]
+        frac = np.clip(frac, 0.0, 1.0)
+        buy_inc[in_spread] = micro_v * frac
+        sell_inc[in_spread] = micro_v - buy_inc[in_spread]
+
+    buy_total = float(buy_inc.sum())
+    sell_total = float(sell_inc.sum())
+
     bucket_deltas: Dict[float, Dict[str, float]] = {}
-
-    for i in range(n):
-        p = price_path[i]
-        bid = bid_path[i]
-        ask = ask_path[i]
-        spread = max(ask - bid, 0.0)
-
-        if spread <= 0:
-            # Fallback to mid split
-            buy_inc = 0.5 * micro_v
-            sell_inc = micro_v - buy_inc
-        else:
-            if p >= ask:
-                buy_inc = micro_v
-                sell_inc = 0.0
-            elif p <= bid:
-                buy_inc = 0.0
-                sell_inc = micro_v
-            else:
-                # distance weighting inside spread
-                frac = (p - bid) / spread
-                if frac < 0.0:
-                    frac = 0.0
-                elif frac > 1.0:
-                    frac = 1.0
-                buy_inc = micro_v * frac
-                sell_inc = micro_v - buy_inc
-
-        buy_total += buy_inc
-        sell_total += sell_inc
-
-        if tick_size and tick_size > 0:
-            bucket = price_to_bucket(p, tick_size)
-        else:
-            bucket = p
-        entry = bucket_deltas.get(bucket)
-        if entry is None:
-            entry = {"bid": 0.0, "ask": 0.0}
-            bucket_deltas[bucket] = entry
-        entry["ask"] += buy_inc
-        entry["bid"] += sell_inc
+    if tick_size and tick_size > 0:
+        bucket_ints = np.rint(price_path / tick_size).astype(np.int64)
+        uniq, inv = np.unique(bucket_ints, return_inverse=True)
+        ask_sums = np.zeros(uniq.size, dtype=float)
+        bid_sums = np.zeros(uniq.size, dtype=float)
+        np.add.at(ask_sums, inv, buy_inc)
+        np.add.at(bid_sums, inv, sell_inc)
+        for i, ui in enumerate(uniq):
+            price = float(ui * tick_size)
+            bucket_deltas[price] = {"ask": float(ask_sums[i]), "bid": float(bid_sums[i])}
+    else:
+        uniq, inv = np.unique(price_path, return_inverse=True)
+        ask_sums = np.zeros(uniq.size, dtype=float)
+        bid_sums = np.zeros(uniq.size, dtype=float)
+        np.add.at(ask_sums, inv, buy_inc)
+        np.add.at(bid_sums, inv, sell_inc)
+        for i, up in enumerate(uniq):
+            bucket_deltas[float(up)] = {"ask": float(ask_sums[i]), "bid": float(bid_sums[i])}
 
     return buy_total, sell_total, bucket_deltas
