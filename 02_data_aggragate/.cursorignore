@@ -4,3 +4,4 @@ __pycache__/
 qc.code-workspace/
 config.json
 log.txt
+footprint_data/

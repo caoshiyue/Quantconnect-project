@@ -296,8 +296,8 @@ def micro_allocate_volume_raw(
     a_o: float, a_h: float, a_l: float, a_c: float,
     tick_size: float,
     alpha: float = 1.0,
-    n_min: int = 20,
-    n_max: int = 300,
+    n_min: int = 9,
+    n_max: int = 90,
 ) -> Tuple[float, float, Dict[float, Dict[str, float]]]:
     """Same logic as micro_allocate_volume but using raw OHLC scalars to avoid object creation overhead."""
     if volume is None or volume <= 0:
