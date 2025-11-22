@@ -395,34 +395,25 @@ def read_day_as_footprint_bars(
 
         fp = FootprintBar(symbol, period, tick_size)
         fp.reset(start_time_py)
-
-        fp._trade_open = float(r.open_i) * tick_size
-        fp._trade_high = float(r.high_i) * tick_size
-        fp._trade_low = float(r.low_i) * tick_size
-        fp._trade_close = float(r.close_i) * tick_size
+        fp.open_i = int(r.open_i)
+        fp.high_i = int(r.high_i)
+        fp.low_i = int(r.low_i)
+        fp.close_i = int(r.close_i)
 
         fp.total_volume = int(r.total_volume)
+        fp.volume = fp.total_volume
         fp.buy_volume = int(r.buy_volume)
         fp.sell_volume = int(r.sell_volume)
         fp.delta = fp.buy_volume - fp.sell_volume
 
-        prices_i = _as_list(r.prices_i)
-        vol_buy = _as_list(r.vol_buy)
-        vol_sell = _as_list(r.vol_sell)
-        vap = fp.volume_at_price
-        for i, p_tick in enumerate(prices_i):
-            price = float(p_tick) * tick_size
-            b = int(vol_sell[i]) if i < len(vol_sell) else 0
-            a = int(vol_buy[i]) if i < len(vol_buy) else 0
-            vap[price] = {"bid": float(b), "ask": float(a)}
+        prices_i = np.asarray(_as_list(r.prices_i), dtype=np.int32)
+        vol_buy = np.asarray(_as_list(r.vol_buy), dtype=np.int32)
+        vol_sell = np.asarray(_as_list(r.vol_sell), dtype=np.int32)
+        if hasattr(fp, "set_ladder"):
+            fp.set_ladder(prices_i, vol_buy, vol_sell)
 
         fp.finalize(end_time_py)
         bars.append(fp)
 
     bars.sort(key=lambda x: x.time)
     return bars
-
-
-# endregion
-
-# Your New Python File

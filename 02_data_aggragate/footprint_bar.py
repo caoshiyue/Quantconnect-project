@@ -1,193 +1,140 @@
 from AlgorithmImports import *
-from typing import Dict
+from typing import Dict, Optional
 from datetime import datetime, timedelta
-#from footprint_utils import price_to_bucket, split_volume_by_side, micro_allocate_volume
+import numpy as np
 
-class FootprintBar(QuoteBar):
-    """FootprintBar aggregates trade/quote info over a target period.
-
-    It inherits from QuoteBar to expose bid/ask OHLC and standard bar fields, and adds:
-      - buy_volume, sell_volume, delta
-      - volume_at_price: {price_bucket: {"bid": qty_at_bid, "ask": qty_at_ask}}
-      - simple imbalance metrics
-
-    Lifecycle:
-      - reset(): clears accumulators and prepares a new bar
-      - update_from_quotebar(q): update quote OHLC aggregation
-      - update_from_tradebar(t): update trade OHLC aggregation (using QuoteBar fields for convenience)
-      - update_pair(t, q): update using matched second-level trade + quote
-      - finalize(end_time): set bar end time and compute derived fields
+class FootprintBar(TradeBar):
+    """精简版 FootprintBar：继承 TradeBar，内部用整数tick存储，属性映射为浮点价格；footprint 明细使用 numpy。
+    - 仅持久化整数价 open_i/high_i/low_i/close_i；浮点 open/high/low/close 通过 tick_size 映射
+    - volume 等于总成交量，同时保留 total_volume 以兼容旧逻辑
+    - footprint 明细以 numpy 数组承载：prices_i_np, vol_buy_np, vol_sell_np（均为 int32）
+    - 提供兼容的 volume_at_price 字典视图（懒构造）
     """
-    def __init__(self, symbol: Symbol, period: timedelta, tick_size: float = None):
+    def __init__(self, symbol: Symbol, period: timedelta, tick_size: float):
         super().__init__()
         self.symbol = symbol
         self.period = period
+        self.time = datetime.min
+        self.end_time = datetime.min
+        self.data_type = MarketDataType.TradeBar
+        self.is_fill_forward = False
         self.tick_size = tick_size or 0.0
         
-        # Quote sides (Bar) are part of QuoteBar; we will progressively merge them
-        self.bid = None
-        self.ask = None
-        
-        # Accumulators
+        # 整数tick OHLC
+        self.open_i: int = 0
+        self.high_i: int = 0
+        self.low_i: int = 0
+        self.close_i: int = 0
+
+        # 成交量
+        self.volume = 0.0
+        self.total_volume = 0.0  # 兼容旧字段名
         self.buy_volume = 0.0
         self.sell_volume = 0.0
         self.delta = 0.0
-        self.total_volume = 0.0
-        self.volume_at_price: Dict[float, Dict[str, float]] = {}
-        
-        # Optional: simple imbalance over the period based on last quote close sizes if present
-        self.bid_imbalance = 0.0
-        self.ask_imbalance = 0.0
-        
-        # Track trade OHLC (we keep them on QuoteBar's own OHLC for simplicity)
-        self._trade_open = None
-        self._trade_high = None
-        self._trade_low = None
-        self._trade_close = None
-        
-        self.time = datetime.min
-        self.end_time = datetime.min
+
+        # 交易日 YYYYMMDD
+        self.trade_date: Optional[int] = None
+
+        # footprint 明细（numpy）
+        self.prices_i_np: np.ndarray = np.empty(0, dtype=np.int32)
+        self.vol_buy_np: np.ndarray = np.empty(0, dtype=np.int32)
+        self.vol_sell_np: np.ndarray = np.empty(0, dtype=np.int32)
+
+        # 懒加载字典缓存
+        self._vap_cache: Optional[Dict[float, Dict[str, float]]] = None
 
     def reset(self, start_time: datetime) -> None:
         self.time = start_time
-        self.bid = None
-        self.ask = None
+        self.end_time = start_time
+        self.volume = 0.0
+        self.total_volume = 0.0
         self.buy_volume = 0.0
         self.sell_volume = 0.0
         self.delta = 0.0
-        self.total_volume = 0.0
-        self.volume_at_price.clear()
-        self.bid_imbalance = 0.0
-        self.ask_imbalance = 0.0
-        self._trade_open = None
-        self._trade_high = None
-        self._trade_low = None
-        self._trade_close = None
-
-    # Expose trade-based OHLC on QuoteBar's OHLC properties for convenience
-    @property
-    def open(self) -> float:
-        return self._trade_open if self._trade_open is not None else 0.0
-
-    @property
-    def high(self) -> float:
-        return self._trade_high if self._trade_high is not None else 0.0
-
-    @property
-    def low(self) -> float:
-        return self._trade_low if self._trade_low is not None else 0.0
-
-    @property
-    def close(self) -> float:
-        return self._trade_close if self._trade_close is not None else 0.0
-
-    def _merge_quote_side(self, side_bar: Bar, current: Bar) -> Bar:
-        if side_bar is None:
-            return current
-            
-        if current is None:
-            current = Bar()
-            current.open = side_bar.open
-            current.high = side_bar.high
-            current.low = side_bar.low
-            current.close = side_bar.close
-            return current
-            
-        # Update OHLC
-        if getattr(current, 'open', None) is None:
-            current.open = side_bar.open
-            
-        current.close = side_bar.close
-        current.high = max(current.high, side_bar.high)
-        current.low = min(current.low, side_bar.low)
-        return current
-
-    def update_from_quotebar(self, q: QuoteBar) -> None:
-        if q is None:
-            return
-            
-        # Merge bid/ask OHLC
-        if getattr(q, 'bid', None) is not None:
-            self.bid = self._merge_quote_side(q.bid, self.bid)
-            
-        if getattr(q, 'ask', None) is not None:
-            self.ask = self._merge_quote_side(q.ask, self.ask)
-            
-        # Optional last size-based imbalance if available
-        lb = float(getattr(q, 'last_bid_size', 0.0) or 0.0)
-        la = float(getattr(q, 'last_ask_size', 0.0) or 0.0)
-        total = lb + la
-        
-        if total > 0:
-            self.bid_imbalance = lb / total
-            self.ask_imbalance = la / total
-
-    def update_from_tradebar(self, t: TradeBar) -> None:
-        if t is None:
-            return
-            
-        price_o = float(getattr(t, 'open', 0.0) or 0.0)
-        price_h = float(getattr(t, 'high', 0.0) or 0.0)
-        price_l = float(getattr(t, 'low', 0.0) or 0.0)
-        price_c = float(getattr(t, 'close', 0.0) or 0.0)
-        vol = float(getattr(t, 'volume', 0.0) or 0.0)
-        
-        # Trade OHLC aggregation
-        if self._trade_open is None:
-            self._trade_open = price_o
-            self._trade_high = price_h
-            self._trade_low = price_l
-        else:
-            self._trade_high = max(self._trade_high, price_h)
-            self._trade_low = min(self._trade_low, price_l)
-            
-        self._trade_close = price_c
-        self.total_volume += vol
-
-    # def update_pair(self, t: TradeBar, q: QuoteBar) -> None:
-    #     """Update the footprint using a matched per-second TradeBar and QuoteBar."""
-    #     self.update_from_quotebar(q)
-    #     self.update_from_tradebar(t)
-
-    #     # Micro-allocation along O->H->L->C against bid/ask paths
-    #     buy_v, sell_v, bucket_deltas = micro_allocate_volume(
-    #         tradebar=t,
-    #         quotebar=q,
-    #         tick_size=self.tick_size,
-    #     )
-
-    #     # Totals
-    #     self.buy_volume += buy_v
-    #     self.sell_volume += sell_v
-    #     self.delta = self.buy_volume - self.sell_volume
-
-    #     # Per-price distribution
-    #     for price_bucket, deltas in bucket_deltas.items():
-    #         entry = self.volume_at_price.get(price_bucket)
-    #         if entry is None:
-    #             entry = {"bid": 0.0, "ask": 0.0}
-    #             self.volume_at_price[price_bucket] = entry
-    #         entry["ask"] += deltas.get("ask", 0.0)
-    #         entry["bid"] += deltas.get("bid", 0.0)
+        self._vap_cache = None
 
     def finalize(self, end_time: datetime) -> None:
         self.end_time = end_time
 
-    def to_dict(self) -> Dict[str, object]:
-        return {
-            "symbol": str(self.symbol),
-            "time": self.time,
-            "end_time": self.end_time,
-            "period": self.period,
-            "open": self.open,
-            "high": self.high,
-            "low": self.low,
-            "close": self.close,
-            "buy_volume": self.buy_volume,
-            "sell_volume": self.sell_volume,
-            "delta": self.delta,
-            "total_volume": self.total_volume,
-            "bid_imbalance": self.bid_imbalance,
-            "ask_imbalance": self.ask_imbalance,
-            "levels": len(self.volume_at_price)
-        }
+    # 映射属性：整数tick <-> 浮点价格
+    @property
+    def open(self) -> float:
+        return float(self.open_i) * float(self.tick_size)
+
+    @open.setter
+    def open(self, v: float) -> None:
+        self.open_i = int(round(float(v) / float(self.tick_size))) if self.tick_size else int(round(float(v)))
+
+    @property
+    def high(self) -> float:
+        return float(self.high_i) * float(self.tick_size)
+
+    @high.setter
+    def high(self, v: float) -> None:
+        self.high_i = int(round(float(v) / float(self.tick_size))) if self.tick_size else int(round(float(v)))
+
+    @property
+    def low(self) -> float:
+        return float(self.low_i) * float(self.tick_size)
+
+    @low.setter
+    def low(self, v: float) -> None:
+        self.low_i = int(round(float(v) / float(self.tick_size))) if self.tick_size else int(round(float(v)))
+
+    @property
+    def close(self) -> float:
+        return float(self.close_i) * float(self.tick_size)
+
+    @close.setter
+    def close(self, v: float) -> None:
+        self.close_i = int(round(float(v) / float(self.tick_size))) if self.tick_size else int(round(float(v)))
+
+    @property
+    def value(self) -> float:
+        return self.close
+
+    @value.setter
+    def value(self, v: float) -> None:
+        self.close = v
+
+    @property
+    def price(self) -> float:
+        return self.close
+
+    @price.setter
+    def price(self, v: float) -> None:
+        self.close = v
+
+    # footprint 明细
+    def set_ladder(self, prices_i: np.ndarray, vol_buy: np.ndarray, vol_sell: np.ndarray) -> None:
+        self.prices_i_np = np.asarray(prices_i, dtype=np.int32)
+        self.vol_buy_np = np.asarray(vol_buy, dtype=np.int32)
+        self.vol_sell_np = np.asarray(vol_sell, dtype=np.int32)
+        self._vap_cache = None
+
+    @property
+    def volume_at_price(self) -> Dict[float, Dict[str, float]]:
+        """兼容旧逻辑的字典视图；策略端建议直接用 numpy 数组 attributes。"""
+        if self._vap_cache is not None:
+            return self._vap_cache
+        vap: Dict[float, Dict[str, float]] = {}
+        if self.prices_i_np.size > 0:
+            prices = (self.prices_i_np.astype(np.float64) * float(self.tick_size)).tolist()
+            vb = self.vol_buy_np.astype(np.int64).tolist()
+            vs = self.vol_sell_np.astype(np.int64).tolist()
+            for i, p in enumerate(prices):
+                vap[p] = {"bid": float(vs[i] if i < len(vs) else 0), "ask": float(vb[i] if i < len(vb) else 0)}
+        self._vap_cache = vap
+        return self._vap_cache
+
+    def to_string(self) -> str:
+        """
+        Returns a string representation of the session bar with OHLCV and OpenInterest values formatted.
+        Example: "O: 101.00 H: 112.00 L: 95.00 C: 110.00 V: 1005.00 OI: 12"
+        """
+        return (f"O: {self.open:.2f} H: {self.high:.2f} L: {self.low:.2f} C: {self.close:.2f} "
+                f"V: {self.volume:.2f} ")
+    def __str__(self) -> str:
+        # __str__ is used by print() and string conversions
+        return self.to_string()

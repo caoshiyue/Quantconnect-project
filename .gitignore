@@ -13,3 +13,5 @@ log.*
 trash
 02_data_aggragate/.cursorignore
 footprint_data/
+__pycache__/
+*.pyc

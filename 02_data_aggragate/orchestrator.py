@@ -145,6 +145,7 @@ def run(
         if df_v is None or df_v.empty:
             continue
         year_to_day_frames[y].append(df_v)
+        print(f"{start_dt} finished")
 
     # 按年批量写入
     for y in years:
