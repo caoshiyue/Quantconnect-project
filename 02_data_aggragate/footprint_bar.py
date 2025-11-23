@@ -133,7 +133,7 @@ class FootprintBar(TradeBar):
         Returns a string representation of the session bar with OHLCV and OpenInterest values formatted.
         Example: "O: 101.00 H: 112.00 L: 95.00 C: 110.00 V: 1005.00 OI: 12"
         """
-        return (f"O: {self.open:.2f} H: {self.high:.2f} L: {self.low:.2f} C: {self.close:.2f} "
+        return (f"T: {self.time} O: {self.open:.2f} H: {self.high:.2f} L: {self.low:.2f} C: {self.close:.2f} "
                 f"V: {self.volume:.2f} ")
     def __str__(self) -> str:
         # __str__ is used by print() and string conversions

@@ -10,6 +10,7 @@ import pandas as pd
 import pyarrow as pa
 import pyarrow.parquet as pq
 from datetime import timedelta
+from datetime import date
 
 
 DATA_ROOT_DEFAULT = "/LeanCLI/footprint_data"
@@ -311,6 +312,53 @@ def append_no_data_dates(
         no_data_dates=no_data_dates,
     )
 
+from footprint_bar import FootprintBar
+
+def _df_to_footprint_bars(df: pd.DataFrame, symbol: object, tick_size: float) -> List[FootprintBar]:
+    """Helper to convert a DataFrame to a list of FootprintBar objects."""
+    
+    def _as_np_array(obj, dtype) -> np.ndarray:
+        if obj is None:
+            return np.empty(0, dtype=dtype)
+        if isinstance(obj, np.ndarray):
+            return obj.astype(dtype, copy=False)
+        try:
+            return np.asarray(obj, dtype=dtype)
+        except (TypeError, ValueError):
+            return np.empty(0, dtype=dtype)
+
+    bars: List[FootprintBar] = []
+    for r in df.itertuples(index=False):
+        start_time_py = pd.to_datetime(r.start_time).to_pydatetime()
+        end_time_py = pd.to_datetime(r.end_time).to_pydatetime()
+        period = (end_time_py - start_time_py) if (end_time_py is not None and start_time_py is not None) else timedelta(seconds=0)
+
+        fp = FootprintBar(symbol, period, tick_size)
+        fp.reset(start_time_py)
+        
+        fp.trade_date = int(r.trade_date)
+        fp.open_i = int(r.open_i)
+        fp.high_i = int(r.high_i)
+        fp.low_i = int(r.low_i)
+        fp.close_i = int(r.close_i)
+        
+        fp.volume = int(r.total_volume)
+        fp.total_volume = fp.volume
+        fp.buy_volume = int(r.buy_volume)
+        fp.sell_volume = int(r.sell_volume)
+        fp.delta = fp.buy_volume - fp.sell_volume
+
+        prices_i = _as_np_array(r.prices_i, np.int32)
+        vol_buy = _as_np_array(r.vol_buy, np.int32)
+        vol_sell = _as_np_array(r.vol_sell, np.int32)
+        fp.set_ladder(prices_i, vol_buy, vol_sell)
+        
+        fp.finalize(end_time_py)
+        bars.append(fp)
+    
+    bars.sort(key=lambda x: x.time)
+    return bars
+
 def read_day_as_footprint_bars(
     symbol: object,
     year: int,
@@ -324,8 +372,6 @@ def read_day_as_footprint_bars(
     - 如未显式提供 tick_size，则从 metadata 读取
     - period 使用 end_time - start_time（每根 V-bar 的覆盖时间）
     """
-    from footprint_bar import FootprintBar
-
     year_path = get_year_file_path(symbol, year, data_root)
     if not os.path.exists(year_path):
         return []
@@ -340,80 +386,69 @@ def read_day_as_footprint_bars(
     if df_day.empty:
         return []
 
+    # 获取 tick_size
     if tick_size is None:
         meta = read_metadata(symbol, year, data_root)
         if not meta or "tick_size" not in meta:
             raise ValueError("tick_size not provided and not found in metadata")
         tick_size = float(meta["tick_size"])
 
-    def _to_py_datetime(x):
-        import pandas as pd  # local import to avoid hard dep at module load
-        if x is None:
-            return None
-        if isinstance(x, pd.Timestamp):
-            return x.to_pydatetime()
+    return _df_to_footprint_bars(df_day, symbol, tick_size)
+
+
+def read_range_as_footprint_bars(
+    symbol: object,
+    start_date: date,
+    end_date: date,
+    data_root: str = DATA_ROOT_DEFAULT,
+    tick_size: float | None = None
+) -> List[FootprintBar]:
+    """
+    高效读取一个日期区间内的所有 Footprint 数据，并返回一个 FootprintBar 对象列表。
+    - 按年份分组，每个年份只读一次文件。
+    - 使用 PyArrow 的 filters 功能在读取时过滤日期，避免加载整个文件。
+    - 一次性将所有数据转换为对象。
+    """
+    all_dates = pd.date_range(start_date, end_date, freq='D')
+    if all_dates.empty:
+        return []
+
+    dates_by_year = {
+        year: [d.year * 10000 + d.month * 100 + d.day for d in dates_in_year]
+        for year, dates_in_year in pd.Series(all_dates).groupby(all_dates.year)
+    }
+
+    all_dfs = []
+
+    for year, dates_int in dates_by_year.items():
+        year_path = get_year_file_path(symbol, year, data_root)
+        if not os.path.exists(year_path):
+            continue
+        
         try:
-            # many timestamp-like objects implement to_pydatetime
-            return x.to_pydatetime()  # type: ignore[attr-defined]
-        except Exception:
-            pass
-        return pd.to_datetime(x).to_pydatetime()
+            table = pq.read_table(
+                year_path,
+                filters=[('trade_date', 'in', dates_int)],
+                use_pandas_metadata=True
+            )
+            if table.num_rows > 0:
+                all_dfs.append(table.to_pandas())
+        except Exception as e:
+            # 文件损坏或 filter 失败时可以打印日志
+            print(f"Could not read {year_path} for dates {dates_int}: {e}")
+            continue
+    
+    if not all_dfs:
+        return []
 
-    def _as_list(obj) -> list:
-        if obj is None:
-            return []
-        if isinstance(obj, list):
-            return obj
-        # numpy / pandas array-like
-        try:
-            import numpy as _np  # local import
-            if isinstance(obj, _np.ndarray):
-                return obj.tolist()
-        except Exception:
-            pass
-        # pyarrow list scalars / arrays
-        try:
-            # ListScalar has .as_py(), Array has .to_pylist()
-            if hasattr(obj, "as_py"):
-                v = obj.as_py()
-                return v if isinstance(v, list) else list(v)
-            if hasattr(obj, "to_pylist"):
-                return obj.to_pylist()
-        except Exception:
-            pass
-        # generic iterable
-        try:
-            return list(obj)
-        except Exception:
-            return []
+    df_range = pd.concat(all_dfs, ignore_index=True)
 
-    bars: List[object] = []
-    for r in df_day.itertuples(index=False):
-        start_time_py = _to_py_datetime(r.start_time)
-        end_time_py = _to_py_datetime(r.end_time)
-        period = (end_time_py - start_time_py) if (end_time_py is not None and start_time_py is not None) else timedelta(seconds=0)
+    # 获取 tick_size (如果未提供)
+    if tick_size is None:
+        first_year = sorted(dates_by_year.keys())[0]
+        meta = read_metadata(symbol, first_year, data_root)
+        if not meta or "tick_size" not in meta:
+            raise ValueError(f"tick_size not provided and not found in metadata for year {first_year}")
+        tick_size = float(meta["tick_size"])
 
-        fp = FootprintBar(symbol, period, tick_size)
-        fp.reset(start_time_py)
-        fp.open_i = int(r.open_i)
-        fp.high_i = int(r.high_i)
-        fp.low_i = int(r.low_i)
-        fp.close_i = int(r.close_i)
-
-        fp.total_volume = int(r.total_volume)
-        fp.volume = fp.total_volume
-        fp.buy_volume = int(r.buy_volume)
-        fp.sell_volume = int(r.sell_volume)
-        fp.delta = fp.buy_volume - fp.sell_volume
-
-        prices_i = np.asarray(_as_list(r.prices_i), dtype=np.int32)
-        vol_buy = np.asarray(_as_list(r.vol_buy), dtype=np.int32)
-        vol_sell = np.asarray(_as_list(r.vol_sell), dtype=np.int32)
-        if hasattr(fp, "set_ladder"):
-            fp.set_ladder(prices_i, vol_buy, vol_sell)
-
-        fp.finalize(end_time_py)
-        bars.append(fp)
-
-    bars.sort(key=lambda x: x.time)
-    return bars
+    return _df_to_footprint_bars(df_range, symbol, tick_size)

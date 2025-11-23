@@ -15,3 +15,4 @@ trash
 footprint_data/
 __pycache__/
 *.pyc
+tmp/

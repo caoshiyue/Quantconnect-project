@@ -183,6 +183,9 @@ def build_v_footprints(
             "prices_i", "vol_buy", "vol_sell",
         ])
     df = df[required_cols].dropna()
+    if 'trade_volume' in df.columns:
+        df = df[df['trade_volume'] > 0]
+        
     if df.empty:
         return pd.DataFrame(columns=[
             "trade_date", "start_time", "end_time",
