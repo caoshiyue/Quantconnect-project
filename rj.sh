@@ -2,11 +2,26 @@
 ###
  # @Author:  
  # @Description:  
- # @LastEditors: Shiyuec
- # @LastEditTime: 2025-10-22 10:27:52
+ # @LastEditors: caoshiyue caoshiyueKevin@Gmail.com
+ # @LastEditTime: 2025-11-24 09:01:56
 ### 
-# 建议将 shebang 改为 #!/bin/bash，以便在执行 ./start_lean.sh 时使用 Bash。
-# 但是为了兼容 sh start_lean.sh，我们将内部语法改为 POSIX 兼容的。
+
+
+# 由于debug 本地.py会指向容器中的路径，/Lean/Launcher/bin/Debug/Notebooks，因此我们先创建一个/Lean/Launcher/bin/Debug/， 给权限，然后通过软连接映射到本地。
+# 创建软连接，让容器 debug 指向本地
+PROJECT_PATH="$(pwd)"
+TARGET="/Lean/Launcher/bin/Debug/Notebooks"
+
+echo "Removing old symlink or folder if exists..."
+rm -rf "$TARGET"
+
+echo "Creating symlink:"
+ln -s "$PROJECT_PATH" "$TARGET"
+
+echo "Done!"
+echo "$TARGET -> $PROJECT_PATH"
+
+
 
 # =======================================================
 # 启动 QuantConnect LEAN Research 环境 (POSIX 兼容版)
