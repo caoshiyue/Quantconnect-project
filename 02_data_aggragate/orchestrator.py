@@ -142,6 +142,10 @@ def run(
                 data_root=data_root
             )
             continue
+        #注意，这里，history请求的当日数据的末尾可能已经到了00:00：00，这是下一天的数据，一般来说没有数据，但以防万一，我们把这一帧的交易删掉。
+        mask_non_first_date = df_norm.index.date != start_dt.date()
+        df_norm.loc[mask_non_first_date, 'volume'] = 0.0
+
         df_v = build_v_footprints(df_norm, v_unit=v_unit, tick_size=tick_size)
         if df_v is None or df_v.empty:
             continue
