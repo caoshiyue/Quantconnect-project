@@ -6,6 +6,7 @@ from footprint_field_mapping import HISTORY_DF_FIELD_MAP
 import pandas as pd
 from footprint_utils import micro_allocate_volume_raw
 
+#! 此文件功能以无作用
 
 def create_footprints_from_history(df_history: pd.DataFrame, period: timedelta, tick_size: float) -> List[FootprintBar]:
     """Process static historical data (from qb.History) into a list of FootprintBars using a df-native path.
