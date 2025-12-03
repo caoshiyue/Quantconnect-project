@@ -2,10 +2,10 @@
     "cloud-id": 26504297,
     "organization-id": "5107b492b765e84eae12aac5d08a3898",
     "channel-id": "LOCAL-5965c3906223ffde83d8b550c6127751",
-    "description": "",
+    "description": "001",
     "algorithm-language": "Python",
     "parameters": {},
-    "deployment-target": "Local Platform",
+    "deployment-target": "Cloud Platform",
     "backtestGrid": {
         "md": [
             {
